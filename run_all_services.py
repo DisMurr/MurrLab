@@ -140,7 +140,7 @@ def main():
     if download_choice == 'y':
         download_datasets()
     else:
-        print("⏭️  Skipping dataset download (you can run voice_dataset_manager.py later)")
+        print("⏭️  Skipping dataset download (you can run datasets_download_and_split.py later)")
     
     # Create shortcuts
     create_desktop_shortcuts()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backward-compatible shim. The Streamlit app was moved to apps/streamlit/enhanced_voice_platform.py
-Run: streamlit run apps/streamlit/enhanced_voice_platform.py
+Streamlit UI for MurrLab (local, offline). Run:
+  streamlit run run_ui_streamlit.py
 """
 
 import sys
@@ -9,10 +9,10 @@ from pathlib import Path as _Path
 # Ensure local src/ is importable
 sys.path.insert(0, str((_Path(__file__).parent / "src").resolve()))
 
-from apps.streamlit.enhanced_voice_platform import main
-
-if __name__ == "__main__":
-    main()
+# Remove legacy shim import/call to avoid double-execution
+# from apps.streamlit.enhanced_voice_platform import main  # removed
+# if __name__ == "__main__":
+#     main()
 
 import os
 import torch
@@ -31,7 +31,10 @@ from pydub import AudioSegment
 import matplotlib.pyplot as plt
 import librosa.display  # needed for specshow
 import seaborn as sns
-from datasets import load_dataset
+try:
+    from datasets import load_dataset
+except Exception:
+    load_dataset = None
 try:
     import sounddevice as sd
 except Exception:
@@ -40,6 +43,10 @@ from scipy.io.wavfile import write
 import threading
 import time
 from murr import MurrTTS, MurrVC
+
+# Ensure output directory exists
+AUDIO_DIR = Path("audio")
+AUDIO_DIR.mkdir(exist_ok=True)
 
 class EnhancedVoicePlatform:
     def __init__(self):
@@ -83,7 +90,9 @@ class EnhancedVoicePlatform:
     def download_datasets(self):
         """Download and prepare popular voice datasets"""
         st.write("📁 Loading voice datasets...")
-        
+        if load_dataset is None:
+            st.warning("'datasets' is not installed. Install with: pip install .[datasets]")
+            return
         try:
             # Common Voice Dataset
             common_voice = load_dataset("mozilla-foundation/common_voice_11_0", "en", split="train[:100]")
@@ -110,7 +119,7 @@ class EnhancedVoicePlatform:
         normalized = librosa.util.normalize(reduced_noise)
         
         # Save enhanced audio
-        enhanced_path = audio_path.replace('.wav', '_enhanced.wav')
+        enhanced_path = str(AUDIO_DIR / (Path(audio_path).stem + '_enhanced.wav'))
         torchaudio.save(enhanced_path, torch.tensor(normalized).unsqueeze(0), int(sr))
         
         return enhanced_path
@@ -123,10 +132,10 @@ class EnhancedVoicePlatform:
         features = {
             'duration': len(audio) / sr,
             'sample_rate': sr,
-            'pitch_mean': np.mean(librosa.yin(audio, fmin=50, fmax=300)),
-            'energy': np.mean(librosa.feature.rms(y=audio)),
-            'spectral_centroid': np.mean(librosa.feature.spectral_centroid(y=audio, sr=sr)),
-            'zero_crossing_rate': np.mean(librosa.feature.zero_crossing_rate(audio)),
+            'pitch_mean': float(np.mean(librosa.yin(audio, fmin=50, fmax=300))),
+            'energy': float(np.mean(librosa.feature.rms(y=audio))),
+            'spectral_centroid': float(np.mean(librosa.feature.spectral_centroid(y=audio, sr=sr))),
+            'zero_crossing_rate': float(np.mean(librosa.feature.zero_crossing_rate(audio))),
         }
         
         return features
@@ -168,9 +177,9 @@ class EnhancedVoicePlatform:
                 text = sample.get('sentence', sample.get('text', ''))
                 if text:
                     wav = self.tts_model.generate(text)
-                    output_path = f"dataset_output_{i}.wav"
-                    torchaudio.save(output_path, wav, self.tts_model.sr)
-                    results.append(output_path)
+                    output_path = AUDIO_DIR / f"dataset_output_{i}.wav"
+                    torchaudio.save(str(output_path), wav, self.tts_model.sr)
+                    results.append(str(output_path))
         
         return results
 
@@ -179,6 +188,21 @@ def main():
         page_title="🎭 Enhanced AI Voice Platform",
         page_icon="🎤",
         layout="wide"
+    )
+    # Hide Streamlit menu/footer/toolbar and deploy button
+    st.markdown(
+        """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        /* Hide deploy/share buttons if present */
+        div[data-testid="stStatusWidget"] {display: none !important;}
+        button[kind="header"] {display: none !important;}
+        a[href*="share.streamlit.io"] {display: none !important;}
+        </style>
+        """,
+        unsafe_allow_html=True,
     )
     
     st.title("🎭 Enhanced AI Voice Platform")
@@ -195,7 +219,6 @@ def main():
     tab = st.sidebar.selectbox("Choose Feature", [
         "🏠 Dashboard",
         "🎤 Advanced TTS",
-        "🔄 Voice Conversion",
         "📊 Voice Analysis", 
         "🎭 Voice Profiles",
         "📁 Dataset Explorer",
@@ -274,14 +297,14 @@ def main():
                     wav = platform.tts_model.generate(text_input, exaggeration=exaggeration, cfg_weight=cfg_weight)
                     
                     # Save and display
-                    output_path = "advanced_tts_output.wav"
-                    torchaudio.save(output_path, wav, platform.tts_model.sr)
+                    output_path = AUDIO_DIR / "advanced_tts_output.wav"
+                    torchaudio.save(str(output_path), wav, platform.tts_model.sr)
                     
                     st.success("✅ Speech generated!")
-                    st.audio(output_path)
+                    st.audio(str(output_path))
                     
                     # Voice analysis
-                    features = platform.analyze_voice(output_path)
+                    features = platform.analyze_voice(str(output_path))
                     st.json(features)
     
     elif tab == "📊 Voice Analysis":
@@ -291,15 +314,15 @@ def main():
         
         if uploaded_file:
             # Save uploaded file
-            audio_path = f"uploaded_{uploaded_file.name}"
+            audio_path = AUDIO_DIR / f"uploaded_{uploaded_file.name}"
             with open(audio_path, "wb") as f:
                 f.write(uploaded_file.read())
             
-            st.audio(audio_path)
+            st.audio(str(audio_path))
             
             # Analyze
             with st.spinner("Analyzing audio..."):
-                features = platform.analyze_voice(audio_path)
+                features = platform.analyze_voice(str(audio_path))
                 
                 col1, col2 = st.columns(2)
                 
@@ -310,7 +333,7 @@ def main():
                 
                 with col2:
                     st.subheader("🎵 Waveform Visualization")
-                    audio, sr = librosa.load(audio_path)
+                    audio, sr = librosa.load(str(audio_path))
                     
                     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6))
                     
@@ -417,30 +440,31 @@ def main():
                     sd.wait()
                     
                     # Save recording
-                    recording_path = "real_time_recording.wav"
-                    write(recording_path, sample_rate, recording)
+                    recording_path = AUDIO_DIR / "real_time_recording.wav"
+                    write(str(recording_path), sample_rate, recording)
                     
                     st.success("✅ Recording complete!")
-                    st.audio(recording_path)
+                    st.audio(str(recording_path))
                     
                     # Auto-enhance
                     if st.checkbox("🔧 Auto-enhance audio"):
-                        enhanced_path = platform.enhance_audio(recording_path)
+                        enhanced_path = platform.enhance_audio(str(recording_path))
                         st.subheader("🎵 Enhanced Audio")
-                        st.audio(enhanced_path)
+                        st.audio(str(enhanced_path))
         
         with col2:
             st.subheader("🔄 Real-time Processing")
             
             # Speech-to-text with Whisper
             if st.button("📝 Transcribe with Whisper") and platform.whisper_model:
-                if os.path.exists("real_time_recording.wav"):
-                    result = platform.whisper_model.transcribe("real_time_recording.wav")
-                    st.text_area("Transcription:", result["text"], height=100)
+                recording_path = AUDIO_DIR / "real_time_recording.wav"
+                if recording_path.exists():
+                    result = platform.whisper_model.transcribe(str(recording_path))
+                    st.text_area("Transcription:", result.get("text", ""), height=100)
                     
                     # TTS from transcription
                     if st.button("🎵 Generate TTS from Transcription") and platform.tts_model:
-                        wav = platform.tts_model.generate(result["text"])
+                        wav = platform.tts_model.generate(result.get("text", ""))
                         st.audio(wav.cpu().numpy(), sample_rate=platform.tts_model.sr)
     
     # Footer
