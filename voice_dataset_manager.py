@@ -3,17 +3,11 @@
 Voice Dataset Manager - Download and integrate popular open-source voice datasets
 """
 
-import os
-import requests
-import zipfile
-import tarfile
 from pathlib import Path
 import pandas as pd
 from datasets import load_dataset
 import torch
 import torchaudio
-import librosa
-import numpy as np
 
 class VoiceDatasetManager:
     def __init__(self, base_path="./voice_datasets"):
@@ -209,7 +203,7 @@ class VoiceDatasetManager:
         metadata_file = dataset_path / "metadata.csv"
         
         if not metadata_file.exists():
-            print("❌ No metadata file found")
+            print("❌ No metadata.csv found in the dataset folder")
             return
         
         df = pd.read_csv(metadata_file)
@@ -223,8 +217,7 @@ class VoiceDatasetManager:
         print(f"Max duration: {df['duration'].max():.2f} seconds")
         
         if 'speaker_id' in df.columns:
-            unique_speakers = df['speaker_id'].nunique()
-            print(f"Unique speakers: {unique_speakers}")
+            print(f"Unique speakers: {df['speaker_id'].nunique()}")
         
         if 'gender' in df.columns:
             gender_dist = df['gender'].value_counts()
@@ -234,11 +227,8 @@ class VoiceDatasetManager:
         
         # Text length analysis
         if 'text' in df.columns:
-            df['text_length'] = df['text'].str.len()
-            print(f"\nText statistics:")
-            print(f"Average text length: {df['text_length'].mean():.1f} characters")
-            print(f"Min text length: {df['text_length'].min()}")
-            print(f"Max text length: {df['text_length'].max()}")
+            df['text_length'] = df['text'].astype(str).str.len()
+            print(f"\nText length (chars) avg: {df['text_length'].mean():.1f}")
     
     def create_training_splits(self, dataset_path, train_ratio=0.8, val_ratio=0.1):
         """Create train/validation/test splits"""
@@ -246,7 +236,7 @@ class VoiceDatasetManager:
         metadata_file = dataset_path / "metadata.csv"
         
         if not metadata_file.exists():
-            print("❌ No metadata file found")
+            print("❌ No metadata.csv found in the dataset folder")
             return
         
         df = pd.read_csv(metadata_file)

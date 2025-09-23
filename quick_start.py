@@ -53,14 +53,14 @@ def check_environment():
 
 def launch_streamlit_platform():
     """Launch the Streamlit platform app"""
-    print("\n� Launching Streamlit platform (apps/streamlit/enhanced_voice_platform.py)...")
+    print("\n🚀 Launching Streamlit platform (apps/streamlit/enhanced_voice_platform.py)...")
     python_cmd = sys.executable
     target = Path("enhanced_voice_platform.py")
     if not target.exists():
         print("❌ Could not find enhanced_voice_platform.py at project root")
         return
     try:
-        subprocess.run(f"{python_cmd} {target}", shell=True)
+        subprocess.run(f"{python_cmd} -m streamlit run {target}", shell=True)
     except KeyboardInterrupt:
         print("\n🛑 Streamlit platform stopped")
 
@@ -74,7 +74,7 @@ def main():
         return
     
     print("\n📋 What would you like to do?")
-    print("1. � Launch Streamlit platform (recommended)")
+    print("1. 🚀 Launch Streamlit platform (recommended)")
     print("2. 🔧 Generate a few test audio files")
     print("3. 📊 Check system status")
     
@@ -88,7 +88,7 @@ def main():
         
         elif choice == "2":
             print("\n🎵 Generating test audio files...")
-            test_script = f"""
+            test_script = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / "src"))
@@ -97,8 +97,12 @@ import torch
 import torchaudio
 from murr import MurrTTS
 
+# Ensure output folder exists
+out_dir = Path("audio")
+out_dir.mkdir(exist_ok=True)
+
 device = "mps" if torch.backends.mps.is_available() else "cpu"
-print(f"Using device: {{device}}")
+print(f"Using device: {device}")
 
 model = MurrTTS.from_pretrained(device=device)
 
@@ -109,10 +113,10 @@ tests = [
 ]
 
 for text, exag, cfg, name in tests:
-    print(f"Generating {{name}}...")
+    print(f"Generating {name}...")
     wav = model.generate(text, exaggeration=exag, cfg_weight=cfg)
-    torchaudio.save(f"{{name}}.wav", wav, model.sr)
-    print(f"✅ Saved {{name}}.wav")
+    torchaudio.save(str(out_dir / f"{name}.wav"), wav, model.sr)
+    print(f"✅ Saved {str(out_dir / (name + '.wav'))}")
 
 print("🎉 Test files generated!")
 """
@@ -126,7 +130,7 @@ print("🎉 Test files generated!")
             
             if result.returncode == 0:
                 print("✅ Test files generated successfully!")
-                print("📁 Check the current directory for .wav files")
+                print("📁 Check the audio/ folder for .wav files")
             else:
                 print(f"❌ Error generating files: {result.stderr}")
         
