@@ -41,7 +41,8 @@ venv.bak/
 *.bin
 *.onnx
 model_cache/
-models/
+# Only ignore a top-level 'models' directory (don't ignore src/chatterbox/models)
+/models/
 checkpoints/
 pretrained/
 
