@@ -1,6 +1,6 @@
 import torchaudio as ta
 import torch
-from chatterbox import MurrTTS
+from murr import MurrTTS
 
 # Automatically detect the best available device
 if torch.cuda.is_available():

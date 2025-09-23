@@ -3,7 +3,7 @@
 Test script to verify TTS fixes are working
 """
 
-from chatterbox.tts import ChatterboxTTS
+from murr import MurrTTS
 
 def test_tts_functionality():
     print("🎭 Testing TTS Functionality")
@@ -12,12 +12,12 @@ def test_tts_functionality():
     try:
         # Test model loading
         print("📦 Loading TTS model...")
-        model = ChatterboxTTS.from_pretrained(device="mps")
+        model = MurrTTS.from_pretrained(device="mps")
         print("✅ Model loaded successfully!")
         
         # Test basic generation without voice reference
         print("\n🎤 Testing text-to-speech generation...")
-        text = "Hello! This is a test of the fixed Chatterbox TTS system."
+        text = "Hello! This is a test of the MurrLab TTS system."
         
         # Generate without audio prompt (uses built-in voice)
         wav = model.generate(text)

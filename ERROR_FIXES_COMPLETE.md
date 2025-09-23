@@ -51,7 +51,7 @@
 ✅ enhanced_voice_platform.py - All errors fixed
 ✅ advanced_voice_api.py - All errors fixed  
 ✅ voice_dataset_manager.py - All errors fixed
-✅ src/chatterbox/tts.py - ALL 11 ERRORS FIXED! 🎉
+✅ src/murr/tts.py - ALL 11 ERRORS FIXED! 🎉
 
 ## Current System Capabilities:
 🎤 Full text-to-speech generation

@@ -45,7 +45,7 @@ python quick_start.py
 
 ### **Verify Core System**
 ```bash
-python -c "from chatterbox import MurrTTS; print('✅ Core TTS working!')"
+python -c "from murr import MurrTTS; print('✅ Core TTS working!')"
 ```
 
 ### **Generate Test Audio**
@@ -83,7 +83,7 @@ python quick_start.py
 
 ### **Basic Text-to-Speech**
 ```python
-from chatterbox import MurrTTS
+from murr import MurrTTS
 import torchaudio
 
 # Load model
@@ -100,7 +100,7 @@ print("Audio saved as my_speech.wav")
 
 ### **Voice Conversion**
 ```python
-from chatterbox import MurrVC
+from murr import MurrVC
 
 vc = MurrVC.from_pretrained(device="mps")
 # Note: Requires reference audio files
@@ -124,7 +124,7 @@ wav = model.generate(
 
 #### **Import Errors**
 ```bash
-# If chatterbox module not found (installed via -e .):
+# If module not found (installed via -e .):
 pip install -e .
 
 # If dependencies missing:

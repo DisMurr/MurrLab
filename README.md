@@ -53,7 +53,7 @@ pip install -e .
 
 ### **Enhanced Installation with All Features**
 ```bash
-pip install streamlit gradio fastapi datasets accelerate
+pip install streamlit fastapi datasets accelerate
 pip install openai-whisper pyannote.audio noisereduce
 pip install pandas plotly matplotlib seaborn
 ```
@@ -62,7 +62,7 @@ pip install pandas plotly matplotlib seaborn
 
 ### **🎤 Text-to-Speech**
 ```python
-from chatterbox import MurrTTS
+from murr import MurrTTS
 
 # Load model
 model = MurrTTS.from_pretrained(device="mps")  # or "cpu"
@@ -86,7 +86,7 @@ python quick_start.py
 
 ### **🔄 Voice Conversion**
 ```python
-from chatterbox import MurrVC
+from murr import MurrVC
 
 vc = MurrVC.from_pretrained(device="mps")
 converted_audio = vc.convert("source.wav", "target_voice.wav")
@@ -105,16 +105,16 @@ converted_audio = vc.convert("source.wav", "target_voice.wav")
 ```
 MurrLab/
 ├── 🎤 Core System
-│   ├── src/chatterbox/          # Main TTS/VC engines
-│   ├── src/chatterbox/models/   # AI model architectures
-│   └── pyproject.toml           # Project configuration
+│   ├── src/murr/               # Main TTS/VC engines
+│   ├── src/murr/models/        # AI model architectures
+│   └── pyproject.toml          # Project configuration
 ├── 🌐 Interfaces
-│   ├── enhanced_voice_platform.py  # Full Streamlit platform
-│   ├── advanced_voice_api.py       # FastAPI REST service
+│   ├── enhanced_voice_platform.py  # Streamlit platform shim
+│   ├── advanced_voice_api.py       # FastAPI service shim
 │   └── quick_start.py              # Interactive CLI
 ├── 🔧 Tools & Examples
-│   ├── example_tts.py              # Basic TTS example
-│   ├── example_vc.py               # Voice conversion example
+│   ├── examples/example_tts.py     # Basic TTS example
+│   ├── examples/example_vc.py      # Voice conversion example
 │   ├── my_tts_experiments.py       # Custom experiments
 │   └── voice_dataset_manager.py    # Dataset tools
 ├── 📊 Documentation

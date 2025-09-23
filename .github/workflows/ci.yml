@@ -27,10 +27,7 @@ jobs:
           python - <<'PY'
           import sys
           print('Python', sys.version)
-          # Prefer public aliases
-          from chatterbox import MurrTTS, MurrVC
-          # Back-compat classes should also be importable
-          from chatterbox.tts import ChatterboxTTS
-          from chatterbox.vc import ChatterboxVC
-          print('Imported MurrTTS/MurrVC and legacy classes OK')
+          # Public API
+          from murr import MurrTTS, MurrVC
+          print('Imported MurrTTS/MurrVC OK')
           PY

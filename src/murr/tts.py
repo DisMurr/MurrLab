@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+import os
 
 import librosa
 import torch
@@ -15,7 +16,7 @@ from .models.voice_encoder import VoiceEncoder
 from .models.t3.modules.cond_enc import T3Cond
 
 
-REPO_ID = "ResembleAI/chatterbox"
+REPO_ID = "DisMurr/murr-voice"
 
 
 def punc_norm(text: str) -> str:
@@ -102,7 +103,7 @@ class Conditionals:
         return cls(T3Cond(**kwargs['t3']), kwargs['gen'])
 
 
-class ChatterboxTTS:
+class MurrTTS:
     ENC_COND_LEN = 6 * S3_SR
     DEC_COND_LEN = 10 * S3GEN_SR
 
@@ -125,7 +126,7 @@ class ChatterboxTTS:
     # watermarking removed
 
     @classmethod
-    def from_local(cls, ckpt_dir, device) -> 'ChatterboxTTS':
+    def from_local(cls, ckpt_dir, device) -> 'MurrTTS':
         ckpt_dir = Path(ckpt_dir)
 
         # Always load to CPU first for non-CUDA devices to handle CUDA-saved models
@@ -171,7 +172,7 @@ class ChatterboxTTS:
         return cls(t3, s3gen, ve, tokenizer, device, conds=conds)
 
     @classmethod
-    def from_pretrained(cls, device) -> 'ChatterboxTTS':
+    def from_pretrained(cls, device) -> 'MurrTTS':
         # Check if MPS is available on macOS
         if device == "mps" and not torch.backends.mps.is_available():
             if not torch.backends.mps.is_built():
@@ -179,6 +180,11 @@ class ChatterboxTTS:
             else:
                 print("MPS not available because the current MacOS version is not 12.3+ and/or you do not have an MPS-enabled device on this machine.")
             device = "cpu"
+
+        # Prefer local weights if available
+        ckpt_dir = Path(os.getenv("MURR_WEIGHTS_DIR", "weights"))
+        if ckpt_dir.exists():
+            return cls.from_local(ckpt_dir, device)
 
         local_path = None
         for fpath in ["ve.safetensors", "t3_cfg.safetensors", "s3gen.safetensors", "tokenizer.json", "conds.pt"]:

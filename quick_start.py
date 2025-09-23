@@ -41,7 +41,7 @@ def check_environment():
     
     # Check if we're in the right directory
     current_dir = Path.cwd()
-    expected_files = ["src/chatterbox/tts.py", "pyproject.toml"]
+    expected_files = ["src/murr/tts.py", "pyproject.toml"]
     
     for file in expected_files:
         if not (current_dir / file).exists():
@@ -95,7 +95,7 @@ sys.path.insert(0, str(Path.cwd() / "src"))
 
 import torch
 import torchaudio
-from chatterbox import MurrTTS
+from murr import MurrTTS
 
 device = "mps" if torch.backends.mps.is_available() else "cpu"
 print(f"Using device: {{device}}")
@@ -146,7 +146,7 @@ print("🎉 Test files generated!")
             # Check if models can be imported
             try:
                 sys.path.insert(0, str(Path.cwd() / "src"))
-                from chatterbox import MurrTTS
+                from murr import MurrTTS
                 print("✅ MurrTTS can be imported")
             except Exception as e:
                 print(f"❌ Import error: {e}")

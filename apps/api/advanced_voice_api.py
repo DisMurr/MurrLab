@@ -22,7 +22,7 @@ except Exception:  # pragma: no cover - optional dependency
 import librosa
 import numpy as np
 from pydantic import BaseModel
-from chatterbox import MurrTTS, MurrVC
+from murr import MurrTTS, MurrVC
 
 # Pydantic models for API
 class TTSRequest(BaseModel):
