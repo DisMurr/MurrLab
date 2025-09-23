@@ -54,6 +54,9 @@ pretrained/
 *.ogg
 !demo_*.wav  # Keep demo files
 !example_*.wav  # Keep example files
+# Keep audio samples directory tracked
+!audio/
+!audio/**
 
 # Jupyter Notebooks
 .ipynb_checkpoints
