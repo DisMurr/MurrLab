@@ -21,12 +21,14 @@ class ChatterboxVC:
         self,
         s3gen: S3Gen,
         device: str,
-        ref_dict: dict=None,
+        ref_dict: dict | None = None,
+        enable_watermark: bool = True,
     ):
         self.sr = S3GEN_SR
         self.s3gen = s3gen
         self.device = device
-        self.watermarker = perth.PerthImplicitWatermarker()
+        self.enable_watermark = enable_watermark
+        self.watermarker = perth.PerthImplicitWatermarker() if enable_watermark else None
         if ref_dict is None:
             self.ref_dict = None
         else:
@@ -68,9 +70,10 @@ class ChatterboxVC:
                 print("MPS not available because the current MacOS version is not 12.3+ and/or you do not have an MPS-enabled device on this machine.")
             device = "cpu"
             
+        local_path = None
         for fpath in ["s3gen.safetensors", "conds.pt"]:
             local_path = hf_hub_download(repo_id=REPO_ID, filename=fpath)
-
+        assert local_path is not None
         return cls.from_local(Path(local_path).parent, device)
 
     def set_target_voice(self, wav_fpath):
@@ -78,7 +81,7 @@ class ChatterboxVC:
         s3gen_ref_wav, _sr = librosa.load(wav_fpath, sr=S3GEN_SR)
 
         s3gen_ref_wav = s3gen_ref_wav[:self.DEC_COND_LEN]
-        self.ref_dict = self.s3gen.embed_ref(s3gen_ref_wav, S3GEN_SR, device=self.device)
+        self.ref_dict = self.s3gen.embed_ref(torch.from_numpy(s3gen_ref_wav), S3GEN_SR, device=self.device)
 
     def generate(
         self,
@@ -100,5 +103,6 @@ class ChatterboxVC:
                 ref_dict=self.ref_dict,
             )
             wav = wav.squeeze(0).detach().cpu().numpy()
-            watermarked_wav = self.watermarker.apply_watermark(wav, sample_rate=self.sr)
-        return torch.from_numpy(watermarked_wav).unsqueeze(0)
+            if self.enable_watermark and self.watermarker is not None:
+                wav = self.watermarker.apply_watermark(wav, sample_rate=self.sr)
+        return torch.from_numpy(wav).unsqueeze(0)

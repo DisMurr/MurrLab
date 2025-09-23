@@ -1,27 +1,9 @@
-import torch
-import gradio as gr
-from chatterbox.vc import ChatterboxVC
+"""
+Backward-compatible shim to the new location: apps/gradio/vc_app.py
+Run: python -m apps.gradio.vc_app
+"""
 
-
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
-
-model = ChatterboxVC.from_pretrained(DEVICE)
-def generate(audio, target_voice_path):
-    wav = model.generate(
-        audio, target_voice_path=target_voice_path,
-    )
-    return model.sr, wav.squeeze(0).numpy()
-
-
-demo = gr.Interface(
-    generate,
-    [
-        gr.Audio(sources=["upload", "microphone"], type="filepath", label="Input audio file"),
-        gr.Audio(sources=["upload", "microphone"], type="filepath", label="Target voice audio file (if none, the default voice is used)", value=None),
-    ],
-    "audio",
-)
+from apps.gradio.vc_app import demo
 
 if __name__ == "__main__":
     demo.launch()

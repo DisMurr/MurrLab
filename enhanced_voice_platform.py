@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """
-Enhanced AI Voice Platform with Open Source Datasets & Models
-Features: TTS, Voice Conversion, Speech Enhancement, Multi-language, Real-time
+Backward-compatible shim. The Streamlit app was moved to apps/streamlit/enhanced_voice_platform.py
+Run: streamlit run apps/streamlit/enhanced_voice_platform.py
 """
+
+from apps.streamlit.enhanced_voice_platform import main
+
+if __name__ == "__main__":
+    main()
 
 import os
 import torch

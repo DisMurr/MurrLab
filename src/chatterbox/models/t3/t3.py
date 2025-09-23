@@ -1,7 +1,7 @@
 # Copyright (c) 2025 Resemble AI
 # MIT License
 import logging
-from typing import Union, Optional, List
+from typing import Union, Optional, List, Any, cast
 
 from tqdm import tqdm
 import torch
@@ -41,7 +41,9 @@ class T3(nn.Module):
     def __init__(self, hp=T3Config()):
         super().__init__()
         self.hp = hp
-        self.cfg = LlamaConfig(**LLAMA_CONFIGS[hp.llama_config_name])
+        # transformers stubs can be strict; cast config dict for type checkers
+        _cfg_dict: dict[str, Any] = LLAMA_CONFIGS[hp.llama_config_name]  # type: ignore[index]
+        self.cfg = LlamaConfig(**_cfg_dict)  # type: ignore[call-arg]
         self.tfmr = LlamaModel(self.cfg)
         self.dim = self.cfg.hidden_size
         self.deepspeed_patch_applied = False
@@ -127,10 +129,10 @@ class T3(nn.Module):
         )
 
         # backbone tranformer forward
-        tfmr_out = self.tfmr.forward(
-            input_ids=None,
+        tfmr_out: Any = self.tfmr.forward(
+            input_ids=None,  # type: ignore[arg-type]
             # position_ids=position_ids, # TODO? ROPE should be fine?
-            inputs_embeds=embeds,
+            inputs_embeds=cast(torch.FloatTensor, embeds),  # type: ignore[arg-type]
             output_hidden_states=True,
             return_dict=True,
             use_cache=(not training),
@@ -190,13 +192,14 @@ class T3(nn.Module):
 
         # Calc CCE losses
         IGNORE_ID = -100
-        device = out.text_logits.device
+        _out: Any = out
+        device = _out.text_logits.device  # type: ignore[attr-defined]
         mask_text = torch.arange(len_text, device=device)[None] >= text_token_lens[:, None]  # (B, len_text)
         mask_speech = torch.arange(len_speech, device=device)[None] >= speech_token_lens[:, None]  # (B, len_speech)
         masked_text = text_tokens.masked_fill(mask_text, IGNORE_ID)
         masked_speech = speech_tokens.masked_fill(mask_speech, IGNORE_ID)
-        loss_text = F.cross_entropy(out.text_logits, masked_text, ignore_index=IGNORE_ID)
-        loss_speech = F.cross_entropy(out.speech_logits, masked_speech, ignore_index=IGNORE_ID)
+        loss_text = F.cross_entropy(_out.text_logits, masked_text, ignore_index=IGNORE_ID)  # type: ignore[attr-defined]
+        loss_speech = F.cross_entropy(_out.speech_logits, masked_speech, ignore_index=IGNORE_ID)  # type: ignore[attr-defined]
 
         return loss_text, loss_speech
 
@@ -230,17 +233,17 @@ class T3(nn.Module):
         # Validate / sanitize inputs
         assert prepend_prompt_speech_tokens is None, "not implemented"
         _ensure_BOT_EOT(text_tokens, self.hp)
-        text_tokens = torch.atleast_2d(text_tokens).to(dtype=torch.long, device=self.device)
+        text_tokens = cast(torch.LongTensor, torch.atleast_2d(text_tokens).to(dtype=torch.long, device=self.device))
 
         # Default initial speech to a single start-of-speech token
         if initial_speech_tokens is None:
-            initial_speech_tokens = self.hp.start_speech_token * torch.ones_like(text_tokens[:, :1])
+            initial_speech_tokens = cast(torch.LongTensor, self.hp.start_speech_token * torch.ones_like(text_tokens[:, :1]))
 
         # Prepare custom input embeds
         embeds, len_cond = self.prepare_input_embeds(
             t3_cond=t3_cond,
             text_tokens=text_tokens,
-            speech_tokens=initial_speech_tokens,
+            speech_tokens=cast(torch.LongTensor, initial_speech_tokens),
             cfg_weight=cfg_weight,
         )
 
@@ -316,6 +319,8 @@ class T3(nn.Module):
         past = output.past_key_values
 
         # ---- Generation Loop using kv_cache ----
+        if max_new_tokens is None:
+            max_new_tokens = self.hp.max_speech_tokens
         for i in tqdm(range(max_new_tokens), desc="Sampling", dynamic_ncols=True):
             logits = output.logits[:, -1, :]
 
@@ -331,10 +336,10 @@ class T3(nn.Module):
             if temperature != 1.0:
                 logits = logits / temperature
 
-            # Apply repetition penalty and top‑p filtering.
+            # Apply repetition penalty and nucleus/min‑p filtering.
             logits = repetition_penalty_processor(generated_ids, logits)
-            logits = min_p_warper(None, logits)
-            logits = top_p_warper(None, logits)
+            logits = min_p_warper(generated_ids, logits)
+            logits = top_p_warper(generated_ids, logits)
 
             # Convert logits to probabilities and sample the next token.
             probs = torch.softmax(logits, dim=-1)
