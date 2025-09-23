@@ -1,0 +1,49 @@
+# 🎭 MurrLab - Enhanced AI Voice Platform Requirements
+
+# Core TTS Dependencies
+numpy>=1.26.0
+librosa==0.11.0
+torch==2.6.0
+torchaudio==2.6.0
+transformers==4.46.3
+diffusers==0.29.0
+safetensors==0.5.3
+
+# AI and ML Libraries
+s3tokenizer
+resemble-perth==1.0.1
+conformer==0.3.2
+
+# Web Interfaces
+streamlit>=1.49.0
+gradio>=5.46.0
+fastapi>=0.117.0
+uvicorn>=0.36.0
+
+# Audio Processing and Enhancement
+openai-whisper>=20250625
+pyannote.audio>=3.4.0
+noisereduce>=3.0.0
+soundfile>=0.13.0
+
+# Data Science and Visualization
+pandas>=2.3.0
+plotly>=6.3.0
+matplotlib>=3.10.0
+seaborn>=0.13.0
+
+# Dataset Integration
+datasets>=4.1.0
+accelerate>=1.10.0
+
+# Utilities
+pydub>=0.25.0
+tqdm>=4.67.0
+requests>=2.32.0
+
+# Development Tools (Optional)
+jupyter>=1.1.0
+ipython>=9.5.0
+
+# Audio Format Support
+ffmpeg-python>=0.2.0

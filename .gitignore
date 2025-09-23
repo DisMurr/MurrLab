@@ -1,0 +1,131 @@
+# 🎭 MurrLab - AI Voice Platform .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyTorch and ML Models
+*.pth
+*.pt
+*.safetensors
+*.bin
+*.onnx
+model_cache/
+models/
+checkpoints/
+pretrained/
+
+# Audio Files (optionally keep demo files)
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+!demo_*.wav  # Keep demo files
+!example_*.wav  # Keep example files
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+wandb/
+tb_logs/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# API Keys and Secrets
+.env.local
+.env.development
+.env.test
+.env.production
+secrets.json
+config.ini
+
+# Gradio and Streamlit
+.gradio/
+.streamlit/
+
+# Downloads and Cache
+downloads/
+cache/
+.cache/
+*.pkl
+*.pickle
+
+# Audio Processing
+audio_output/
+generated_audio/
+processed_audio/
+
+# Documentation Build
+docs/_build/
+site/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Large Files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Model Outputs
+output/
+results/
+experiments/
