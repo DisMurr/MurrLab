@@ -212,16 +212,16 @@ class T3(nn.Module):
         prepend_prompt_speech_tokens: Optional[Tensor]=None,
 
         # HF generate args
-        num_return_sequences=1,
-        max_new_tokens=None,
-        stop_on_eos=True,
-        do_sample=True,
-        temperature=0.8,
-        min_p=0.05,
-        top_p=1.00,
-        length_penalty=1.0,
-        repetition_penalty=1.2,
-        cfg_weight=0,
+        num_return_sequences: int = 1,
+        max_new_tokens: Optional[int] = None,
+        stop_on_eos: bool = True,
+        do_sample: bool = True,
+        temperature: float = 0.8,
+        min_p: float = 0.05,
+        top_p: float = 1.00,
+        length_penalty: float = 1.0,
+        repetition_penalty: float = 1.2,
+        cfg_weight: float = 0.0,
     ):
         """
         Args:

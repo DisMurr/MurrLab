@@ -230,7 +230,12 @@ class ChatterboxTTS:
         # Ensure cfg_weight is a float
         if cfg_weight is None:
             cfg_weight = 0.5
-        cfg_weight = int(cfg_weight)  # Convert to int as expected by inference function
+        try:
+            cfg_weight = float(cfg_weight)
+        except (TypeError, ValueError):
+            cfg_weight = 0.5
+        # Keep within a reasonable range; T3 expects a float weight (0 disables CFG)
+        cfg_weight = max(0.0, min(2.0, cfg_weight))
         
         if audio_prompt_path:
             self.prepare_conditionals(audio_prompt_path, exaggeration=exaggeration)

@@ -45,7 +45,7 @@ An advanced, fully-enhanced AI voice platform built on Chatterbox TTS with compr
 
 ### **Quick Start**
 ```bash
-git clone https://github.com/YourUsername/MurrLab.git
+git clone https://github.com/DisMurr/MurrLab.git
 cd MurrLab
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate

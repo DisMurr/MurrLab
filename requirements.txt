@@ -21,7 +21,8 @@ fastapi>=0.117.0
 uvicorn>=0.36.0
 
 # Audio Processing and Enhancement
-openai-whisper>=20250625
+# whisper is typically installed via OpenAI's GitHub; PyPI package is 'openai-whisper' with semantic versions
+openai-whisper>=20231117
 pyannote.audio>=3.4.0
 noisereduce>=3.0.0
 soundfile>=0.13.0

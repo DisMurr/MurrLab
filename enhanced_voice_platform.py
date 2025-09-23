@@ -16,6 +16,7 @@ import whisper
 import noisereduce as nr
 from pydub import AudioSegment
 import matplotlib.pyplot as plt
+import librosa.display  # needed for specshow
 import seaborn as sns
 from datasets import load_dataset
 import sounddevice as sd
