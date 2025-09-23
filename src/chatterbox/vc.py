@@ -2,7 +2,6 @@ from pathlib import Path
 
 import librosa
 import torch
-import perth
 from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
 
@@ -22,13 +21,11 @@ class ChatterboxVC:
         s3gen: S3Gen,
         device: str,
         ref_dict: dict | None = None,
-        enable_watermark: bool = True,
     ):
         self.sr = S3GEN_SR
         self.s3gen = s3gen
         self.device = device
-        self.enable_watermark = enable_watermark
-        self.watermarker = perth.PerthImplicitWatermarker() if enable_watermark else None
+    # watermarking removed
         if ref_dict is None:
             self.ref_dict = None
         else:
@@ -103,6 +100,4 @@ class ChatterboxVC:
                 ref_dict=self.ref_dict,
             )
             wav = wav.squeeze(0).detach().cpu().numpy()
-            if self.enable_watermark and self.watermarker is not None:
-                wav = self.watermarker.apply_watermark(wav, sample_rate=self.sr)
         return torch.from_numpy(wav).unsqueeze(0)

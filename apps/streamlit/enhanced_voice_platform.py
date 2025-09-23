@@ -68,10 +68,10 @@ class EnhancedVoicePlatform:
     # Minimal main to mount the legacy UI for brevity
 
 def main():
-    st.set_page_config(page_title="🎭 Enhanced AI Voice Platform", page_icon="🎤", layout="wide")
-    st.title("🎭 Enhanced AI Voice Platform")
-    st.markdown("This app was reorganized to apps/streamlit/. You can continue using it from here.")
-    st.info("For the full original UI, run the top-level file or port the full interface here.")
+    st.set_page_config(page_title="🎭 AI Voice Platform", page_icon="🎤", layout="wide")
+    st.title("🎭 AI Voice Platform")
+    st.markdown("This app was reorganized under apps/streamlit/ and simplified.")
+    st.info("For a full UI, extend this module as needed.")
 
 
 if __name__ == "__main__":

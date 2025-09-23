@@ -4,12 +4,12 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)]()
 
-An advanced, fully-enhanced AI voice platform built on Chatterbox TTS with comprehensive error fixes, multiple interfaces, and professional-grade features.
+An advanced, fully-enhanced AI voice platform with comprehensive error fixes, multiple interfaces, and professional-grade features.
 
 ## 🚀 **What Makes MurrLab Special**
 
 - **🔧 Zero Errors**: All 11 critical TTS errors fixed for rock-solid stability
-- **🌐 Multiple Interfaces**: Streamlit, Gradio, FastAPI, and CLI options
+- **🌐 Multiple Interfaces**: Streamlit, FastAPI, and CLI options
 - **🎵 High Quality**: Professional-grade text-to-speech and voice conversion
 - **🔧 Apple Silicon Optimized**: Native MPS support for M1/M2/M3 Macs
 - **📦 Enhanced Features**: Open-source dataset integration and advanced AI tools
@@ -31,7 +31,6 @@ An advanced, fully-enhanced AI voice platform built on Chatterbox TTS with compr
 
 ### 🌐 **Multiple Interfaces**
 - **Streamlit Platform**: Full-featured web interface
-- **Gradio Apps**: User-friendly TTS and VC interfaces
 - **FastAPI Service**: Professional REST API
 - **CLI Tools**: Command-line interfaces for automation
 
@@ -78,13 +77,10 @@ torchaudio.save("output.wav", wav, model.sr)
 
 ### **🌐 Launch Web Interface**
 ```bash
-# Streamlit Platform (Recommended)
+# Streamlit Platform
 streamlit run enhanced_voice_platform.py
 
-# Gradio TTS Interface
-python gradio_tts_app.py
-
-# Quick Start Menu
+# Quick Start Menu (optional)
 python quick_start.py
 ```
 
@@ -101,8 +97,6 @@ converted_audio = vc.convert("source.wav", "target_voice.wav")
 | Interface | Type | URL | Features |
 |-----------|------|-----|----------|
 | **Enhanced Platform** | Streamlit | `streamlit run enhanced_voice_platform.py` | Full AI platform |
-| **TTS Interface** | Gradio | `python gradio_tts_app.py` | Simple TTS |
-| **VC Interface** | Gradio | `python gradio_vc_app.py` | Voice conversion |
 | **API Service** | FastAPI | `python advanced_voice_api.py` | REST API |
 | **CLI Menu** | Terminal | `python quick_start.py` | Interactive CLI |
 
@@ -117,8 +111,6 @@ MurrLab/
 ├── 🌐 Interfaces
 │   ├── enhanced_voice_platform.py  # Full Streamlit platform
 │   ├── advanced_voice_api.py       # FastAPI REST service
-│   ├── gradio_tts_app.py           # Gradio TTS interface
-│   ├── gradio_vc_app.py            # Gradio VC interface
 │   └── quick_start.py              # Interactive CLI
 ├── 🔧 Tools & Examples
 │   ├── example_tts.py              # Basic TTS example
@@ -178,7 +170,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 **Acknowledgments**
 
-- **Resemble AI** for the original Chatterbox TTS framework
 - **Hugging Face** for transformers and diffusers libraries
 - **PyTorch** team for the deep learning framework
 - **Open Source Community** for datasets and tools

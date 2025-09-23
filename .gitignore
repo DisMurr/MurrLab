@@ -95,8 +95,7 @@ temp/
 secrets.json
 config.ini
 
-# Gradio and Streamlit
-.gradio/
+# Streamlit
 .streamlit/
 
 # Downloads and Cache

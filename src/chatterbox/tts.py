@@ -3,7 +3,6 @@ from pathlib import Path
 
 import librosa
 import torch
-import perth
 import torch.nn.functional as F
 from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
@@ -115,7 +114,6 @@ class ChatterboxTTS:
         tokenizer: EnTokenizer,
         device: str,
         conds: Conditionals | None = None,
-        enable_watermark: bool = True,
     ):
         self.sr = S3GEN_SR  # sample rate of synthesized audio
         self.t3 = t3
@@ -124,8 +122,7 @@ class ChatterboxTTS:
         self.tokenizer = tokenizer
         self.device = device
         self.conds = conds
-        self.enable_watermark = enable_watermark
-        self.watermarker = perth.PerthImplicitWatermarker() if enable_watermark else None
+    # watermarking removed
 
     @classmethod
     def from_local(cls, ckpt_dir, device) -> 'ChatterboxTTS':
@@ -297,6 +294,4 @@ class ChatterboxTTS:
                 ref_dict=self.conds.gen,
             )
             wav = wav.squeeze(0).detach().cpu().numpy()
-            if self.enable_watermark and self.watermarker is not None:
-                wav = self.watermarker.apply_watermark(wav, sample_rate=self.sr)
         return torch.from_numpy(wav).unsqueeze(0)

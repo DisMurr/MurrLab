@@ -170,7 +170,7 @@ def main():
     )
     
     st.title("🎭 Enhanced AI Voice Platform")
-    st.markdown("**Powered by Chatterbox TTS + Open Source AI**")
+    st.markdown("**Powered by Open Source AI**")
     
     # Initialize platform
     if 'platform' not in st.session_state:
@@ -430,7 +430,7 @@ def main():
     
     # Footer
     st.markdown("---")
-    st.markdown("🎭 **Enhanced AI Voice Platform** | Powered by Chatterbox TTS + Open Source AI")
+    st.markdown("🎭 **Enhanced AI Voice Platform** | Open Source AI")
 
 if __name__ == "__main__":
     main()

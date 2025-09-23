@@ -30,7 +30,7 @@ def run_command(command, description):
 def check_python_environment():
     """Check if we're in the correct Python environment"""
     python_path = sys.executable
-    if ".venv" in python_path or "chatterbox" in python_path:
+    if ".venv" in python_path:
         print(f"✅ Using Python environment: {python_path}")
         return True
     else:
@@ -70,28 +70,9 @@ def launch_fastapi_server():
     return thread
 
 def launch_gradio_interfaces():
-    """Launch Gradio interfaces"""
-    print("\n🎭 Launching Gradio interfaces...")
-    
-    def run_tts_gradio():
-        command = f"{sys.executable} gradio_tts_app.py"
-        subprocess.run(command, shell=True)
-    
-    def run_vc_gradio():
-        command = f"{sys.executable} gradio_vc_app.py"
-        subprocess.run(command, shell=True)
-    
-    # Start TTS interface on port 7860
-    tts_thread = threading.Thread(target=run_tts_gradio, daemon=True)
-    tts_thread.start()
-    
-    time.sleep(5)  # Wait a bit before starting second interface
-    
-    # Start VC interface on different port
-    vc_thread = threading.Thread(target=run_vc_gradio, daemon=True)
-    vc_thread.start()
-    
-    return tts_thread, vc_thread
+    """Gradio interfaces removed."""
+    print("\nℹ️ Gradio interfaces have been removed from this project.")
+    return None, None
 
 def create_desktop_shortcuts():
     """Create desktop shortcuts for easy access"""
@@ -122,8 +103,7 @@ def show_interface_urls():
         ("🌟 Main Streamlit Platform", "http://localhost:8501", "Full-featured voice platform"),
         ("🚀 FastAPI Server", "http://localhost:8000", "REST API for voice services"),
         ("📚 API Documentation", "http://localhost:8000/docs", "Interactive API docs"),
-        ("🎤 Gradio TTS Interface", "http://localhost:7860", "Text-to-speech web UI"),
-        ("🔄 Gradio Voice Conversion", "http://localhost:7861", "Voice conversion web UI"),
+    # Gradio interfaces removed
     ]
     
     for name, url, description in interfaces:

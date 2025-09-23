@@ -8,3 +8,7 @@ __version__ = version("chatterbox-tts")
 
 from .tts import ChatterboxTTS
 from .vc import ChatterboxVC
+
+# Public aliases without the original name
+MurrTTS = ChatterboxTTS
+MurrVC = ChatterboxVC

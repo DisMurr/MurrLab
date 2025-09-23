@@ -31,7 +31,7 @@ pip install -e .
 
 ### 4. **Install Enhanced Features**
 ```bash
-pip install streamlit gradio fastapi uvicorn
+pip install streamlit fastapi uvicorn
 pip install openai-whisper pyannote.audio noisereduce
 pip install pandas plotly matplotlib seaborn
 ```
@@ -55,26 +55,11 @@ python test_tts_fixes.py
 
 ### **Launch Web Interface**
 ```bash
-# Simple Gradio interface
-python gradio_tts_app.py
-
-# Full Streamlit platform
+# Streamlit platform
 streamlit run enhanced_voice_platform.py
 ```
 
 ## 🌐 **Interface Options**
-
-### **🎤 Gradio TTS Interface**
-```bash
-python gradio_tts_app.py
-# Opens at: http://localhost:7860
-```
-
-### **🔄 Gradio Voice Conversion**
-```bash
-python gradio_vc_app.py
-# Opens at: http://localhost:7861
-```
 
 ### **📊 Enhanced Streamlit Platform**
 ```bash
