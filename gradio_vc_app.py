@@ -1,1 +1,0 @@
-# Gradio VC app removed

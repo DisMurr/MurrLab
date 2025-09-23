@@ -35,7 +35,7 @@ python launch_platform.py
 This will:
 - Set up all AI models
 - Download voice datasets (optional)
-- Launch all web interfaces
+- Launch web interfaces
 - Create desktop shortcuts
 - Open the main platform in your browser
 
@@ -48,8 +48,6 @@ After running the launcher, you'll have access to:
 | 🌟 **Main Platform** | http://localhost:8501 | Full-featured Streamlit interface |
 | 🚀 **API Server** | http://localhost:8000 | REST API for developers |
 | 📚 **API Docs** | http://localhost:8000/docs | Interactive API documentation |
-| 🎤 **TTS Interface** | http://localhost:7860 | Simple text-to-speech |
-| 🔄 **Voice Conversion** | http://localhost:7861 | Voice cloning interface |
 
 ## 📁 Project Structure
 
@@ -62,7 +60,7 @@ MurrLab/
 ├── examples/
 │   ├── example_tts.py
 │   └── example_vc.py
-├── src/chatterbox/                     # Core engines (module path kept for compat)
+├── src/murr/                           # Core engines (module path updated)
 ├── launch_platform.py                  # Orchestration script
 ├── voice_dataset_manager.py            # Dataset utilities
 └── *.wav                               # Generated audio files
@@ -72,7 +70,7 @@ MurrLab/
 
 ### Basic Text-to-Speech
 ```python
-from chatterbox import MurrTTS
+from murr import MurrTTS
 
 model = MurrTTS.from_pretrained(device="mps")
 wav = model.generate("Hello, world!", exaggeration=0.7, cfg_weight=0.4)
@@ -80,7 +78,7 @@ wav = model.generate("Hello, world!", exaggeration=0.7, cfg_weight=0.4)
 
 ### Voice Conversion
 ```python
-from chatterbox import MurrVC
+from murr import MurrVC
 
 model = MurrVC.from_pretrained(device="mps")
 converted = model.generate(
@@ -215,7 +213,7 @@ manager.create_training_splits(dataset_path)
 ## 🤝 Contributing
 
 This enhanced platform builds upon:
-- [MurrLab Voice (TTS/VC) models packaged under chatterbox module path]
+- [MurrLab Voice (TTS/VC) models packaged under murr module path]
 - [OpenAI Whisper](https://github.com/openai/whisper)
 - [Mozilla Common Voice](https://commonvoice.mozilla.org/)
 - [LibriSpeech](http://www.openslr.org/12/)

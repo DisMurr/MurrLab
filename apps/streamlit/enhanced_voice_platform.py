@@ -23,7 +23,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import threading
 import time
-from chatterbox import MurrTTS, MurrVC
+from murr import MurrTTS, MurrVC
 
 # ... identical logic ported from top-level enhanced_voice_platform.py ...
 # To keep this change concise, we import the original module if present.

@@ -28,7 +28,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import threading
 import time
-from chatterbox import MurrTTS, MurrVC
+from murr import MurrTTS, MurrVC
 
 class EnhancedVoicePlatform:
     def __init__(self):

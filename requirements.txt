@@ -10,11 +10,9 @@ diffusers==0.29.0
 safetensors==0.5.3
 # AI and ML Libraries
 s3tokenizer
-resemble-perth==1.0.1
 conformer==0.3.2
 
 streamlit>=1.49.0
-gradio>=5.46.0
 fastapi>=0.117.0
 uvicorn>=0.36.0
 
@@ -46,3 +44,7 @@ ipython>=9.5.0
 
 # Audio Format Support
 ffmpeg-python>=0.2.0
+
+# Testing Tools
+pytest>=8.0.0
+pytest-mock>=3.12.0
