@@ -5,7 +5,7 @@ Custom TTS Experiments with MurrLab
 
 import torchaudio as ta
 import torch
-from chatterbox import MurrTTS
+from murr import MurrTTS
 
 def setup_model():
     """Initialize the TTS model"""

@@ -14,14 +14,14 @@
 
 ## 📂 **CORE SYSTEM FILES**
 
-### ✅ **Source Code (src/chatterbox/)**
+### ✅ **Source Code (src/murr/)**
 | File | Status | Notes |
 |------|---------|-------|
 | `__init__.py` | ✅ PERFECT | Clean imports, proper version handling |
 | `tts.py` | ✅ PERFECT | All 11 errors fixed, fully operational |
 | `vc.py` | ✅ PERFECT | Voice conversion working |
 
-### ✅ **Model Architecture (src/chatterbox/models/)**
+### ✅ **Model Architecture (src/murr/models/)**
 | Component | Status | Notes |
 |-----------|---------|-------|
 | `s3gen/` | ✅ PERFECT | Speech generation models |
@@ -45,8 +45,6 @@
 ### ✅ **User Interfaces**
 | File | Status | Interface Type |
 |------|---------|----------------|
-| `gradio_tts_app.py` | ✅ PERFECT | Web-based TTS interface |
-| `gradio_vc_app.py` | ✅ PERFECT | Web-based VC interface |
 | `quick_start.py` | ✅ PERFECT | Interactive CLI menu |
 
 ### ✅ **Example & Test Files**
@@ -66,7 +64,7 @@
 | File | Status | Notes |
 |------|---------|-------|
 | `pyproject.toml` | ✅ PERFECT | Proper dependencies, build config |
-| `README.md` | ✅ PERFECT | Original documentation |
+| `README.md` | ✅ PERFECT | Updated documentation |
 | `ENHANCED_README.md` | ✅ PERFECT | Enhanced features guide |
 | `LICENSE` | ✅ PERFECT | MIT license |
 
@@ -103,7 +101,7 @@
 
 ### ✅ **Dependencies**
 - **Core Libraries**: torch, librosa, transformers ✅
-- **Interface Libraries**: streamlit, gradio, fastapi ✅
+- **Interface Libraries**: streamlit, fastapi ✅
 - **Audio Processing**: torchaudio, soundfile ✅
 - **AI Libraries**: diffusers, datasets ✅
 
