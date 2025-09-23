@@ -2,6 +2,25 @@
 
 All notable changes and enhancements to the MurrLab AI Voice Platform.
 
+## [2.1.0] - 2025-09-23 - Refactor to `murr` package, remove Gradio
+
+### 🔁 Refactor
+- Renamed python package from `chatterbox` to `murr`
+- Public API now: `from murr import MurrTTS, MurrVC`
+- Added local weights fallback: prefers `weights/` (or `MURR_WEIGHTS_DIR`) before HF
+
+### 🧹 Cleanup
+- Removed all Gradio apps and references (Streamlit + FastAPI only)
+- Removed watermark/perth dependencies
+- Moved all root-level WAV samples into `audio/` and ensured they are tracked
+
+### 📦 Project
+- pyproject: renamed distribution to `murrlab-voice`
+- CI: updated to smoke-import `murr` package
+- Docs: README/Guides updated to reflect new package and interfaces
+
+---
+
 ## [2.0.0] - 2025-09-23 - MurrLab Enhanced Release
 
 ### 🎉 **Major Enhancements**
@@ -18,7 +37,6 @@ All notable changes and enhancements to the MurrLab AI Voice Platform.
 - **Enhanced Streamlit Platform** - Full-featured AI voice interface
 - **Advanced FastAPI Service** - Professional REST API
 - **Interactive CLI Menu** - User-friendly command-line interface
-- **Improved Gradio Apps** - Updated TTS and VC web interfaces
 
 #### 🔧 **Enhanced Features**
 - **Open-source dataset integration** (Common Voice, LibriSpeech, LJ Speech, VCTK)
@@ -102,7 +120,7 @@ All notable changes and enhancements to the MurrLab AI Voice Platform.
 | Metric | Before | After | Improvement |
 |--------|--------|--------|-------------|
 | **Errors** | 11 critical | 0 errors | ✅ 100% fixed |
-| **Interfaces** | 2 basic | 5 enhanced | 🚀 250% increase |
+| **Interfaces** | 2 basic | Streamlit + FastAPI | 🚀 Modernized |
 | **Features** | Basic TTS | Full AI platform | 🌟 Comprehensive |
 | **Stability** | Frequent crashes | Rock solid | 💪 Production ready |
 | **Documentation** | Minimal | Comprehensive | 📚 Complete |
