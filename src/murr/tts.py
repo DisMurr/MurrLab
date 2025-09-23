@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+import os
 
 import librosa
 import torch
@@ -179,6 +180,11 @@ class MurrTTS:
             else:
                 print("MPS not available because the current MacOS version is not 12.3+ and/or you do not have an MPS-enabled device on this machine.")
             device = "cpu"
+
+        # Prefer local weights if available
+        ckpt_dir = Path(os.getenv("MURR_WEIGHTS_DIR", "weights"))
+        if ckpt_dir.exists():
+            return cls.from_local(ckpt_dir, device)
 
         local_path = None
         for fpath in ["ve.safetensors", "t3_cfg.safetensors", "s3gen.safetensors", "tokenizer.json", "conds.pt"]:
