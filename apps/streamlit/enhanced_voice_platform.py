@@ -4,6 +4,10 @@ Enhanced AI Voice Platform with Open Source Datasets & Models
 Features: TTS, Voice Conversion, Speech Enhancement, Multi-language, Real-time
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str((_Path(__file__).resolve().parents[2] / "src")))
+
 import os
 import torch
 import torchaudio
@@ -12,14 +16,20 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from pathlib import Path
-import whisper
+try:
+    import whisper
+except Exception:
+    whisper = None
 import noisereduce as nr
 from pydub import AudioSegment
 import matplotlib.pyplot as plt
 import librosa.display  # needed for specshow
 import seaborn as sns
 from datasets import load_dataset
-import sounddevice as sd
+try:
+    import sounddevice as sd
+except Exception:  # sounddevice is optional; real-time recording disabled if missing
+    sd = None
 from scipy.io.wavfile import write
 import threading
 import time
@@ -60,9 +70,11 @@ class EnhancedVoicePlatform:
         if not self.vc_model:
             self.vc_model = MurrVC.from_pretrained(device=self.device)
             st.success("✅ Voice Conversion Model loaded")
-        if not self.whisper_model:
+        if not self.whisper_model and whisper is not None:
             self.whisper_model = whisper.load_model("base")
             st.success("✅ Whisper ASR Model loaded")
+        elif whisper is None:
+            st.info("Whisper not installed; ASR features disabled.")
 
     # Minimal main to mount the legacy UI for brevity
 
@@ -70,7 +82,10 @@ def main():
     st.set_page_config(page_title="🎭 AI Voice Platform", page_icon="🎤", layout="wide")
     st.title("🎭 AI Voice Platform")
     st.markdown("This app was reorganized under apps/streamlit/ and simplified.")
-    st.info("For a full UI, extend this module as needed.")
+    if sd is None:
+        st.warning("Real-time recording requires 'sounddevice'. Install with: pip install sounddevice")
+    else:
+        st.info("For a full UI, extend this module as needed.")
 
 
 if __name__ == "__main__":

@@ -4,6 +4,11 @@ Backward-compatible shim. The Streamlit app was moved to apps/streamlit/enhanced
 Run: streamlit run apps/streamlit/enhanced_voice_platform.py
 """
 
+import sys
+from pathlib import Path as _Path
+# Ensure local src/ is importable
+sys.path.insert(0, str((_Path(__file__).parent / "src").resolve()))
+
 from apps.streamlit.enhanced_voice_platform import main
 
 if __name__ == "__main__":
@@ -17,14 +22,20 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from pathlib import Path
-import whisper
+try:
+    import whisper
+except Exception:
+    whisper = None
 import noisereduce as nr
 from pydub import AudioSegment
 import matplotlib.pyplot as plt
 import librosa.display  # needed for specshow
 import seaborn as sns
 from datasets import load_dataset
-import sounddevice as sd
+try:
+    import sounddevice as sd
+except Exception:
+    sd = None
 from scipy.io.wavfile import write
 import threading
 import time
@@ -63,9 +74,11 @@ class EnhancedVoicePlatform:
             st.success("✅ Voice Conversion Model loaded")
         
         # Whisper ASR Model
-        if not self.whisper_model:
+        if not self.whisper_model and whisper is not None:
             self.whisper_model = whisper.load_model("base")
             st.success("✅ Whisper ASR Model loaded")
+        elif whisper is None:
+            st.info("Whisper not installed; ASR features disabled.")
     
     def download_datasets(self):
         """Download and prepare popular voice datasets"""
@@ -386,7 +399,10 @@ def main():
     
     elif tab == "🎙️ Real-time Recording":
         st.header("🎙️ Real-time Voice Recording & Processing")
-        
+        if sd is None:
+            st.warning("Real-time recording is disabled. Install 'sounddevice' to enable: pip install sounddevice")
+            st.stop()
+         
         col1, col2 = st.columns(2)
         
         with col1:
@@ -395,7 +411,7 @@ def main():
             duration = st.slider("Recording Duration (seconds)", 1, 10, 3)
             sample_rate = 44100
             
-            if st.button("🔴 Start Recording"):
+            if st.button("🔴 Start Recording") and sd is not None:
                 with st.spinner(f"Recording for {duration} seconds..."):
                     recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1)
                     sd.wait()
