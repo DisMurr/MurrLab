@@ -22,8 +22,7 @@ except Exception:  # pragma: no cover - optional dependency
 import librosa
 import numpy as np
 from pydantic import BaseModel
-from chatterbox.tts import ChatterboxTTS
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrTTS, MurrVC
 
 # Pydantic models for API
 class TTSRequest(BaseModel):
@@ -79,9 +78,9 @@ class VoiceService:
         """Load all AI models"""
         try:
             if not self.tts_model:
-                self.tts_model = ChatterboxTTS.from_pretrained(device=self.device)
+                self.tts_model = MurrTTS.from_pretrained(device=self.device)
             if not self.vc_model:
-                self.vc_model = ChatterboxVC.from_pretrained(device=self.device)
+                self.vc_model = MurrVC.from_pretrained(device=self.device)
             if whisper is not None and not self.whisper_model:
                 self.whisper_model = whisper.load_model("base")
             self.models_loaded = True

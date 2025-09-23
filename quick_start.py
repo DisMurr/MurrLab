@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Fixed Enhanced Voice Platform - Quick Start Script
-Handles errors gracefully and provides working interfaces
+MurrLab Voice - Quick Start Script
+Clean, dependency-light quick start without Gradio.
 """
 
 import subprocess
@@ -45,138 +45,28 @@ def check_environment():
     
     for file in expected_files:
         if not (current_dir / file).exists():
-            print(f"❌ Missing {file} - make sure you're in the chatterbox directory")
+            print(f"❌ Missing {file} - make sure you're in the MurrLab project directory")
             return False
     
     print("✅ Environment check passed")
     return True
 
-def start_basic_interface():
-    """Start the most basic working interface"""
-    print("\n🎯 Starting Basic TTS Interface...")
-    
-    # Create a simple working script
-    simple_script = """
-import sys
-import torch
-import torchaudio
-import gradio as gr
-from pathlib import Path
-
-# Add src to path
-sys.path.insert(0, str(Path.cwd() / "src"))
-
-try:
-    from chatterbox.tts import ChatterboxTTS
-    
-    # Global model
-    model = None
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
-    
-    def load_model():
-        global model
-        if model is None:
-            model = ChatterboxTTS.from_pretrained(device=device)
-        return model
-    
-    def generate_speech(text, exaggeration=0.5, cfg_weight=0.5):
-        try:
-            if not text.strip():
-                return None, "Please enter some text"
-            
-            tts_model = load_model()
-            wav = tts_model.generate(text, exaggeration=exaggeration, cfg_weight=cfg_weight)
-            
-            # Save to file
-            output_path = "generated_speech.wav"
-            torchaudio.save(output_path, wav, tts_model.sr)
-            
-            return output_path, f"✅ Generated speech for: {text[:50]}..."
-            
-        except Exception as e:
-            return None, f"❌ Error: {str(e)}"
-    
-    # Create Gradio interface
-    with gr.Blocks(title="🎤 Chatterbox TTS") as interface:
-        gr.Markdown("# 🎤 Chatterbox TTS - Simple Interface")
-        gr.Markdown("Enter text below and adjust settings to generate speech")
-        
-        with gr.Row():
-            with gr.Column():
-                text_input = gr.Textbox(
-                    label="Text to synthesize",
-                    placeholder="Enter your text here...",
-                    lines=3
-                )
-                
-                with gr.Row():
-                    exag_slider = gr.Slider(
-                        minimum=0.0, 
-                        maximum=2.0, 
-                        value=0.5, 
-                        step=0.1,
-                        label="Exaggeration (Emotion)"
-                    )
-                    cfg_slider = gr.Slider(
-                        minimum=0.0, 
-                        maximum=1.0, 
-                        value=0.5, 
-                        step=0.1,
-                        label="CFG Weight (Stability)"
-                    )
-                
-                generate_btn = gr.Button("🎵 Generate Speech", variant="primary")
-            
-            with gr.Column():
-                audio_output = gr.Audio(label="Generated Speech")
-                status_output = gr.Textbox(label="Status", interactive=False)
-        
-        generate_btn.click(
-            fn=generate_speech,
-            inputs=[text_input, exag_slider, cfg_slider],
-            outputs=[audio_output, status_output]
-        )
-        
-        # Add examples
-        gr.Examples(
-            examples=[
-                ["Hello! This is Chatterbox TTS in action.", 0.5, 0.5],
-                ["I'm really excited about this new technology!", 1.2, 0.3],
-                ["Welcome to our professional presentation.", 0.4, 0.6],
-                ["Once upon a time in a magical land...", 0.7, 0.4]
-            ],
-            inputs=[text_input, exag_slider, cfg_slider]
-        )
-    
-    print(f"🎤 Starting TTS interface on device: {device}")
-    interface.launch(server_name="0.0.0.0", server_port=7860, share=False)
-    
-except Exception as e:
-    print(f"❌ Failed to start interface: {e}")
-    print("📋 Please check that all dependencies are installed correctly")
-"""
-    
-    # Write the script
-    script_path = Path("simple_tts_interface.py")
-    with open(script_path, "w") as f:
-        f.write(simple_script)
-    
-    # Run it
+def launch_streamlit_platform():
+    """Launch the Streamlit platform app"""
+    print("\n� Launching Streamlit platform (apps/streamlit/enhanced_voice_platform.py)...")
     python_cmd = sys.executable
-    command = f"{python_cmd} simple_tts_interface.py"
-    
-    print(f"🚀 Running: {command}")
-    print("🌐 Interface will be available at: http://localhost:7860")
-    print("⌨️ Press Ctrl+C to stop")
-    
+    target = Path("enhanced_voice_platform.py")
+    if not target.exists():
+        print("❌ Could not find enhanced_voice_platform.py at project root")
+        return
     try:
-        subprocess.run(command, shell=True)
+        subprocess.run(f"{python_cmd} {target}", shell=True)
     except KeyboardInterrupt:
-        print("\n🛑 Interface stopped")
+        print("\n🛑 Streamlit platform stopped")
 
 def main():
     """Main function"""
-    print("🎭 CHATTERBOX TTS - QUICK START")
+    print("🎭 MurrLab Voice - Quick Start")
     print("=" * 50)
     
     # Check environment
@@ -184,7 +74,7 @@ def main():
         return
     
     print("\n📋 What would you like to do?")
-    print("1. 🎤 Start Simple TTS Interface (Recommended)")
+    print("1. � Launch Streamlit platform (recommended)")
     print("2. 🔧 Generate a few test audio files")
     print("3. 📊 Check system status")
     
@@ -194,7 +84,7 @@ def main():
             choice = "1"
         
         if choice == "1":
-            start_basic_interface()
+            launch_streamlit_platform()
         
         elif choice == "2":
             print("\n🎵 Generating test audio files...")
@@ -205,12 +95,12 @@ sys.path.insert(0, str(Path.cwd() / "src"))
 
 import torch
 import torchaudio
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 
 device = "mps" if torch.backends.mps.is_available() else "cpu"
 print(f"Using device: {{device}}")
 
-model = ChatterboxTTS.from_pretrained(device=device)
+model = MurrTTS.from_pretrained(device=device)
 
 tests = [
     ("Hello world! This is a test.", 0.5, 0.5, "test_neutral"),
@@ -256,8 +146,8 @@ print("🎉 Test files generated!")
             # Check if models can be imported
             try:
                 sys.path.insert(0, str(Path.cwd() / "src"))
-                from chatterbox.tts import ChatterboxTTS
-                print("✅ Chatterbox TTS can be imported")
+                from chatterbox import MurrTTS
+                print("✅ MurrTTS can be imported")
             except Exception as e:
                 print(f"❌ Import error: {e}")
         

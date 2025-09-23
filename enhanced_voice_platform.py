@@ -28,8 +28,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import threading
 import time
-from chatterbox.tts import ChatterboxTTS
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrTTS, MurrVC
 
 class EnhancedVoicePlatform:
     def __init__(self):
@@ -55,12 +54,12 @@ class EnhancedVoicePlatform:
         
         # TTS Model
         if not self.tts_model:
-            self.tts_model = ChatterboxTTS.from_pretrained(device=self.device)
+            self.tts_model = MurrTTS.from_pretrained(device=self.device)
             st.success("✅ TTS Model loaded")
         
         # Voice Conversion Model
         if not self.vc_model:
-            self.vc_model = ChatterboxVC.from_pretrained(device=self.device)
+            self.vc_model = MurrVC.from_pretrained(device=self.device)
             st.success("✅ Voice Conversion Model loaded")
         
         # Whisper ASR Model

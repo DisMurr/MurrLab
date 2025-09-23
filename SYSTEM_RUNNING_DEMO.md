@@ -1,25 +1,25 @@
-🎭 CHATTERBOX TTS SYSTEM - LIVE DEMONSTRATION
+🎭 MurrLab Voice System - Live Demonstration
 =================================================================
 
 ✅ **SYSTEM STATUS: FULLY OPERATIONAL**
 
 ## 🌐 **Currently Running Interfaces:**
 
-### 1. Gradio TTS Interface
-- **Local URL**: http://127.0.0.1:7860
-- **Public URL**: https://ed8ba7c0b45a4f8ac6.gradio.live
+### 1. Streamlit Enhanced Platform
+- **Command**: `streamlit run enhanced_voice_platform.py`
+- **Local URL**: http://127.0.0.1:8501
 - **Status**: 🟢 ACTIVE
-- **Features**: Text-to-speech generation with voice control
+- **Features**: Full AI voice platform with TTS and VC
 
 ### 2. Quick Start Interface
 - **Terminal**: Interactive command-line interface
 - **Status**: 🟢 ACTIVE  
 - **Features**: Easy access to all system functions
 
-### 3. Enhanced Voice Platform (Available)
-- **File**: enhanced_voice_platform.py
-- **Type**: Streamlit web interface
-- **Features**: Full AI voice platform with datasets
+### 3. Quick Start CLI (Available)
+- **File**: quick_start.py
+- **Type**: Interactive CLI
+- **Features**: Streamlit launcher, tests, status
 
 ### 4. Advanced Voice API (Available)
 - **File**: advanced_voice_api.py
@@ -47,12 +47,6 @@
 
 ### Start Interfaces:
 ```bash
-# Gradio TTS Interface (Currently Running)
-python gradio_tts_app.py
-
-# Gradio Voice Conversion
-python gradio_vc_app.py
-
 # Enhanced Streamlit Platform
 streamlit run enhanced_voice_platform.py
 
@@ -84,8 +78,8 @@ python my_tts_experiments.py
 6. **Professional Quality** - High-fidelity output
 
 ## 🎯 **What You Can Do Right Now:**
-1. Visit http://127.0.0.1:7860 to use the Gradio interface
-2. Visit https://ed8ba7c0b45a4f8ac6.gradio.live for public access
+1. Launch the Streamlit platform: http://127.0.0.1:8501
+2. Use the FastAPI service: http://127.0.0.1:8000/docs
 3. Type text and generate speech with different voices
 4. Convert between voice styles and emotions
 5. Download generated audio files

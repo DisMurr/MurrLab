@@ -62,10 +62,10 @@ pip install pandas plotly matplotlib seaborn
 
 ### **🎤 Text-to-Speech**
 ```python
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 
 # Load model
-model = ChatterboxTTS.from_pretrained(device="mps")  # or "cpu"
+model = MurrTTS.from_pretrained(device="mps")  # or "cpu"
 
 # Generate speech
 wav = model.generate("Hello! Welcome to MurrLab AI voice platform.")
@@ -86,9 +86,9 @@ python quick_start.py
 
 ### **🔄 Voice Conversion**
 ```python
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrVC
 
-vc = ChatterboxVC.from_pretrained(device="mps")
+vc = MurrVC.from_pretrained(device="mps")
 converted_audio = vc.convert("source.wav", "target_voice.wav")
 ```
 

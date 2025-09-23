@@ -1,6 +1,6 @@
 import torchaudio as ta
 import torch
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 
 # Automatically detect the best available device
 if torch.cuda.is_available():
@@ -12,7 +12,7 @@ else:
 
 print(f"Using device: {device}")
 
-model = ChatterboxTTS.from_pretrained(device=device)
+model = MurrTTS.from_pretrained(device=device)
 
 text = "Ezreal and Jinx teamed up with Ahri, Yasuo, and Teemo to take down the enemy's Nexus in an epic late-game pentakill."
 wav = model.generate(text)

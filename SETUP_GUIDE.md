@@ -12,7 +12,7 @@
 
 ### 1. **Clone Repository**
 ```bash
-git clone https://github.com/YourUsername/MurrLab.git
+git clone https://github.com/DisMurr/MurrLab.git
 cd MurrLab
 ```
 
@@ -45,7 +45,7 @@ python quick_start.py
 
 ### **Verify Core System**
 ```bash
-python -c "from chatterbox.tts import ChatterboxTTS; print('✅ Core TTS working!')"
+python -c "from chatterbox import MurrTTS; print('✅ Core TTS working!')"
 ```
 
 ### **Generate Test Audio**
@@ -83,11 +83,11 @@ python quick_start.py
 
 ### **Basic Text-to-Speech**
 ```python
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 import torchaudio
 
 # Load model
-model = ChatterboxTTS.from_pretrained(device="mps")  # or "cpu"
+model = MurrTTS.from_pretrained(device="mps")  # or "cpu"
 
 # Generate speech
 text = "Welcome to MurrLab AI voice platform!"
@@ -100,15 +100,15 @@ print("Audio saved as my_speech.wav")
 
 ### **Voice Conversion**
 ```python
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrVC
 
-vc = ChatterboxVC.from_pretrained(device="mps")
+vc = MurrVC.from_pretrained(device="mps")
 # Note: Requires reference audio files
 ```
 
 ### **Advanced TTS with Emotion**
 ```python
-model = ChatterboxTTS.from_pretrained(device="mps")
+model = MurrTTS.from_pretrained(device="mps")
 
 # Generate with emotion control
 wav = model.generate(
@@ -124,7 +124,7 @@ wav = model.generate(
 
 #### **Import Errors**
 ```bash
-# If chatterbox module not found:
+# If chatterbox module not found (installed via -e .):
 pip install -e .
 
 # If dependencies missing:
@@ -139,7 +139,7 @@ print(f"MPS available: {torch.backends.mps.is_available()}")
 print(f"CUDA available: {torch.cuda.is_available()}")
 
 # Force CPU if needed
-model = ChatterboxTTS.from_pretrained(device="cpu")
+model = MurrTTS.from_pretrained(device="cpu")
 ```
 
 #### **Audio Issues**
@@ -201,7 +201,7 @@ If you encounter issues:
 ## 🎉 **Success!**
 
 When setup is complete, you should be able to:
-- ✅ Import ChatterboxTTS without errors
+- ✅ Import MurrTTS without errors
 - ✅ Generate audio files
 - ✅ Launch web interfaces
 - ✅ Use CLI tools

@@ -2,7 +2,7 @@
 
 **The Ultimate Open Source Voice Synthesis & AI Platform**
 
-Built on top of Chatterbox TTS with integrated open-source datasets, advanced AI models, and multiple interfaces.
+Powered by the MurrLab Voice stack (MurrTTS + MurrVC) with integrated open-source datasets, advanced AI models, and multiple interfaces.
 
 ## 🌟 Features
 
@@ -15,14 +15,13 @@ Built on top of Chatterbox TTS with integrated open-source datasets, advanced AI
 
 ### AI & Datasets
 - **📁 Integrated Datasets** - Mozilla Common Voice, LibriSpeech, LJ Speech, VCTK
-- **🤖 Multiple AI Models** - Chatterbox TTS, Whisper ASR, Voice Conversion
+- **🤖 Multiple AI Models** - MurrTTS, Whisper ASR, Voice Conversion
 - **🌍 Multi-language Support** - English, Spanish, French, German, and more
 - **🎯 Custom Voice Profiles** - Create and save personalized voice settings
 
 ### Interfaces & APIs
 - **🌐 Streamlit Web Platform** - Full-featured interactive interface
 - **🚀 FastAPI REST Service** - Professional API for integration
-- **🎭 Gradio Interfaces** - User-friendly web UIs for TTS and Voice Conversion
 - **📱 Real-time Processing** - Live audio recording and processing
 
 ## 🚀 Quick Start
@@ -55,34 +54,35 @@ After running the launcher, you'll have access to:
 ## 📁 Project Structure
 
 ```
-chatterbox-0.1.2/
-├── 🎭 enhanced_voice_platform.py    # Main Streamlit platform
-├── 🚀 advanced_voice_api.py         # FastAPI REST service
-├── 📁 voice_dataset_manager.py      # Dataset downloader
-├── 🚀 launch_platform.py            # Setup & launcher script
-├── 🎤 gradio_tts_app.py            # Gradio TTS interface
-├── 🔄 gradio_vc_app.py             # Gradio voice conversion
-├── 📊 my_tts_experiments.py        # Custom experiments
-├── 🗂️ voice_datasets/              # Downloaded datasets
-├── 🎵 *.wav                        # Generated audio files
-└── 🔧 src/chatterbox/              # Core Chatterbox code
+MurrLab/
+├── enhanced_voice_platform.py          # Shim to apps/streamlit/enhanced_voice_platform.py
+├── apps/
+│   ├── api/advanced_voice_api.py       # FastAPI REST service
+│   └── streamlit/enhanced_voice_platform.py  # Streamlit UI
+├── examples/
+│   ├── example_tts.py
+│   └── example_vc.py
+├── src/chatterbox/                     # Core engines (module path kept for compat)
+├── launch_platform.py                  # Orchestration script
+├── voice_dataset_manager.py            # Dataset utilities
+└── *.wav                               # Generated audio files
 ```
 
 ## 🎯 Usage Examples
 
 ### Basic Text-to-Speech
 ```python
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 
-model = ChatterboxTTS.from_pretrained(device="mps")
+model = MurrTTS.from_pretrained(device="mps")
 wav = model.generate("Hello, world!", exaggeration=0.7, cfg_weight=0.4)
 ```
 
 ### Voice Conversion
 ```python
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrVC
 
-model = ChatterboxVC.from_pretrained(device="mps")
+model = MurrVC.from_pretrained(device="mps")
 converted = model.generate(
     audio="source.wav",
     target_voice_path="target_voice.wav"
@@ -215,7 +215,7 @@ manager.create_training_splits(dataset_path)
 ## 🤝 Contributing
 
 This enhanced platform builds upon:
-- [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) by Resemble AI
+- [MurrLab Voice (TTS/VC) models packaged under chatterbox module path]
 - [OpenAI Whisper](https://github.com/openai/whisper)
 - [Mozilla Common Voice](https://commonvoice.mozilla.org/)
 - [LibriSpeech](http://www.openslr.org/12/)

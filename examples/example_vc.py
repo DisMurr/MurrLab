@@ -1,7 +1,7 @@
 import torch
 import torchaudio as ta
 
-from chatterbox.vc import ChatterboxVC
+from chatterbox import MurrVC
 
 # Automatically detect the best available device
 if torch.cuda.is_available():
@@ -16,7 +16,7 @@ print(f"Using device: {device}")
 AUDIO_PATH = "YOUR_FILE.wav"
 TARGET_VOICE_PATH = "YOUR_FILE.wav"
 
-model = ChatterboxVC.from_pretrained(device)
+model = MurrVC.from_pretrained(device)
 wav = model.generate(
     audio=AUDIO_PATH,
     target_voice_path=TARGET_VOICE_PATH,

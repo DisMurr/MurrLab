@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Custom TTS Experiments with Chatterbox
+Custom TTS Experiments with MurrLab
 """
 
 import torchaudio as ta
 import torch
-from chatterbox.tts import ChatterboxTTS
+from chatterbox import MurrTTS
 
 def setup_model():
     """Initialize the TTS model"""
     device = 'mps' if torch.backends.mps.is_available() else 'cpu'
     print(f"Using device: {device}")
-    return ChatterboxTTS.from_pretrained(device=device)
+    return MurrTTS.from_pretrained(device=device)
 
 def generate_podcast_intro(model):
     """Generate a podcast-style introduction"""
