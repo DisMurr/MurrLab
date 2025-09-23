@@ -42,7 +42,7 @@ def download_datasets():
     print("\n📁 Setting up voice datasets...")
     
     # Run dataset manager
-    dataset_command = f"{sys.executable} voice_dataset_manager.py"
+    dataset_command = f"{sys.executable} datasets_download_and_split.py"
     return run_command(dataset_command, "Downloading voice datasets")
 
 def launch_streamlit_app():
@@ -50,7 +50,7 @@ def launch_streamlit_app():
     print("\n🌐 Launching Streamlit interface...")
     
     def run_streamlit():
-        command = f"{sys.executable} -m streamlit run enhanced_voice_platform.py --server.port 8501"
+        command = f"{sys.executable} -m streamlit run run_ui_streamlit.py --server.port 8501"
         subprocess.run(command, shell=True)
     
     thread = threading.Thread(target=run_streamlit, daemon=True)
@@ -62,7 +62,7 @@ def launch_fastapi_server():
     print("\n🚀 Launching FastAPI server...")
     
     def run_fastapi():
-        command = f"{sys.executable} advanced_voice_api.py"
+        command = f"{sys.executable} run_api_server.py"
         subprocess.run(command, shell=True)
     
     thread = threading.Thread(target=run_fastapi, daemon=True)

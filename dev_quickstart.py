@@ -55,9 +55,9 @@ def launch_streamlit_platform():
     """Launch the Streamlit platform app"""
     print("\n🚀 Launching Streamlit platform (apps/streamlit/enhanced_voice_platform.py)...")
     python_cmd = sys.executable
-    target = Path("enhanced_voice_platform.py")
+    target = Path("run_ui_streamlit.py")
     if not target.exists():
-        print("❌ Could not find enhanced_voice_platform.py at project root")
+        print("❌ Could not find run_ui_streamlit.py at project root")
         return
     try:
         subprocess.run(f"{python_cmd} -m streamlit run {target}", shell=True)
