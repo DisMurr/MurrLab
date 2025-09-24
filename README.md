@@ -14,7 +14,20 @@ python -m venv .venv
 source .venv/bin/activate  # macOS/Linux
 pip install -e .[web,api]
 # Optional ASR: pip install .[asr]
+# Or: pip install -r requirements.txt (installs everything)
 ```
+
+## TL;DR: Run
+- UI: `streamlit run run_ui_streamlit.py` → http://localhost:8501
+- API: `uvicorn apps.api.advanced_voice_api:app --reload` → http://localhost:8000/docs
+- Both: `python run_all_services.py`
+
+## Weights
+- The models first look for local weights under `weights/` (or the directory pointed to by env var `MURR_WEIGHTS_DIR`).
+- If not found, they try to download from Hugging Face repo `DisMurr/murr-voice`.
+- If that repo is private, either:
+  - Place `ve.safetensors`, `t3_cfg.safetensors`, `s3gen.safetensors`, `tokenizer.json`, `conds.pt` in a local `weights/` folder, or
+  - Authenticate with Hugging Face (`huggingface-cli login`) and ensure access to the repo.
 
 ## Quick start
 ```python
