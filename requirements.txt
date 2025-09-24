@@ -15,6 +15,7 @@ conformer==0.3.2
 streamlit>=1.49.0
 fastapi>=0.117.0
 uvicorn>=0.36.0
+python-multipart>=0.0.9
 sounddevice>=0.4.6
 
 # Audio Processing and Enhancement
