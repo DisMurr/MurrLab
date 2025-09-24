@@ -70,5 +70,14 @@ datasets_download_and_split.py  # Optional dataset tool
 audio/                    # Sample outputs
 ```
 
+## Cloudflare Pages (static landing)
+This repo now includes a static landing page in `public/` so Cloudflare Pages won’t be blank.
+- Framework preset: None
+- Build command: (leave empty)
+- Build output directory: public
+- Root directory: /
+
+Pages only serves static files; the Streamlit/UI and FastAPI/API must run on compute (VM/PaaS) or be exposed via Cloudflare Tunnel. See Weights and Run sections above.
+
 ## Changelog
 See CHANGELOG.md for release notes.

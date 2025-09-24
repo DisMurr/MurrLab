@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MurrLab – AI Voice Platform</title>
+  <style>
+    :root { --bg:#0b1220; --card:#121a2b; --text:#e8eefc; --muted:#9bb0d1; --accent:#6aa8ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: linear-gradient(180deg, #0b1220 0%, #0a0f1a 100%); color: var(--text); }
+    header { padding: 48px 20px 24px; text-align:center; }
+    h1 { margin: 0 0 8px; font-size: clamp(28px, 6vw, 44px); letter-spacing: 0.2px; }
+    p.lead { margin: 0 auto; max-width: 800px; color: var(--muted); font-size: 16px; }
+    main { padding: 24px 20px 60px; display:flex; justify-content:center; }
+    .card { width: min(980px, 92vw); background: rgba(18,26,43,0.75); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; }
+    .section { padding: 24px 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .section:first-child { border-top: none; }
+    h2 { margin: 0 0 12px; font-size: 20px; }
+    code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; }
+    a.btn { display:inline-block; background: var(--accent); color:#061126; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600; }
+    a.link { color: var(--accent); text-decoration: none; }
+    ul { margin: 10px 0 0 18px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MurrLab – AI Voice Platform</h1>
+    <p class="lead">This Cloudflare Pages site hosts a static landing page. The live app (Streamlit UI and FastAPI API) runs as Python services and cannot execute on Pages. See deployment options below.</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="section">
+        <h2>Local quick start</h2>
+        <div class="grid">
+          <div class="box">
+            <strong>UI (Streamlit)</strong>
+            <ul>
+              <li class="mono">pip install -e .[web,api]</li>
+              <li class="mono">streamlit run run_ui_streamlit.py</li>
+              <li>Opens at <span class="mono">http://localhost:8501</span></li>
+            </ul>
+          </div>
+          <div class="box">
+            <strong>API (FastAPI)</strong>
+            <ul>
+              <li class="mono">uvicorn apps.api.advanced_voice_api:app --reload</li>
+              <li>Docs at <span class="mono">http://localhost:8000/docs</span></li>
+            </ul>
+          </div>
+          <div class="box">
+            <strong>Weights</strong>
+            <ul>
+              <li>Place model files in <span class="mono">weights/</span> or set <span class="mono">MURR_WEIGHTS_DIR</span></li>
+              <li>Or authenticate to the Hugging Face repo for automatic download</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Deploy options</h2>
+        <div class="grid">
+          <div class="box">
+            <strong>Cloudflare Tunnel</strong>
+            <ul>
+              <li>Expose your local UI (8501) or API (8000) under your domain</li>
+              <li class="mono">cloudflared tunnel run &amp; route dns</li>
+            </ul>
+          </div>
+          <div class="box">
+            <strong>Compute hosting</strong>
+            <ul>
+              <li>Run the Python services on a VM or PaaS (Render/Railway/Fly/Cloud Run)</li>
+              <li>Then point your domain via Cloudflare DNS/Proxy</li>
+            </ul>
+          </div>
+          <div class="box">
+            <strong>Pages + external backend</strong>
+            <ul>
+              <li>Host a JS front-end on Pages; call your FastAPI deployed elsewhere</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Configure Cloudflare Pages</h2>
+        <ul>
+          <li>Framework preset: <strong>None</strong></li>
+          <li>Build command: <strong>(leave empty)</strong></li>
+          <li>Build output directory: <span class="mono">public</span></li>
+          <li>Root directory: <span class="mono">/</span></li>
+        </ul>
+        <p>Pages will publish this static site from the <span class="mono">/public</span> folder.</p>
+      </div>
+
+      <div class="section">
+        <a class="btn" href="https://github.com/DisMurr/MurrLab" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
