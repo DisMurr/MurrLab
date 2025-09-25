@@ -75,7 +75,8 @@ class AlignmentStreamAnalyzer:
             self.last_aligned_attn = step_attention[0].mean(0) # (N, N)
 
         target_layer = tfmr.layers[alignment_layer_idx].self_attn
-        hook_handle = target_layer.register_forward_hook(attention_forward_hook)
+        # Register hook (hook_handle not used in this context)
+        target_layer.register_forward_hook(attention_forward_hook)
 
         # Backup original forward
         original_forward = target_layer.forward
@@ -130,7 +131,8 @@ class AlignmentStreamAnalyzer:
 
         # NOTE: EOS rarely assigned activations, and second-last token is often punctuation, so use last 3 tokens.
         # NOTE: due to the false-start behaviour, we need to make sure we skip activations for the first few tokens.
-        last_text_token_duration = A[15:, -3:].sum()
+        # last_text_token_duration computed but not used in current implementation
+        # last_text_token_duration = A[15:, -3:].sum()
 
         # Activations for the final token that last too long are likely hallucinations.
         long_tail = self.complete and (A[self.completed_at:, -3:].sum(dim=0).max() >= 10) # 400ms

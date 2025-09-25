@@ -4,14 +4,13 @@ Advanced FastAPI Voice Service
 Features: TTS, Voice Conversion, Real-time streaming, Multi-language support
 """
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import torch
 import torchaudio
 import io
-import os
 import json
 from pathlib import Path
 from typing import Optional
@@ -19,8 +18,6 @@ try:
     import whisper  # optional, provided by the 'asr' extra
 except Exception:  # pragma: no cover - optional dependency
     whisper = None  # type: ignore
-import librosa
-import numpy as np
 from pydantic import BaseModel
 from murr import MurrTTS, MurrVC
 

@@ -170,7 +170,7 @@ class VoiceEncoder(nn.Module):
 
         # Compute where to split the utterances into partials
         frame_step = get_frame_step(overlap, rate, self.hp)
-        n_partials, target_lens = zip(*(get_num_wins(l, frame_step, min_coverage, self.hp) for l in mel_lens))
+        n_partials, target_lens = zip(*(get_num_wins(mel_len, frame_step, min_coverage, self.hp) for mel_len in mel_lens))
 
         # Possibly pad the mels to reach the target lengths
         len_diff = max(target_lens) - mels.size(1)

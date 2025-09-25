@@ -1,7 +1,7 @@
 # Copyright (c) 2025 Resemble AI
 # MIT License
 import logging
-from typing import Union, Optional, List, Any, cast
+from typing import Optional, Any, cast
 
 from tqdm import tqdm
 import torch
@@ -265,8 +265,6 @@ class T3(nn.Module):
             )
             self.patched_model = patched_model
             self.compiled = True
-
-        device = embeds.device
 
         # Start from provided initial speech tokens (typically BOS). Do not duplicate BOS.
         inputs_embeds = embeds  # includes cond + text + initial_speech_tokens

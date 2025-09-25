@@ -6,10 +6,8 @@ Automatically downloads datasets, sets up models, and launches all interfaces
 
 import subprocess
 import sys
-import os
 import threading
 import time
-from pathlib import Path
 import webbrowser
 
 def run_command(command, description):
@@ -148,13 +146,13 @@ def main():
     print("\n🚀 Launching all interfaces...")
     
     # Launch all services
-    streamlit_thread = launch_streamlit_app()
+    launch_streamlit_app()
     time.sleep(3)
     
-    fastapi_thread = launch_fastapi_server()
+    launch_fastapi_server()
     time.sleep(3)
     
-    gradio_threads = launch_gradio_interfaces()
+    launch_gradio_interfaces()
     time.sleep(5)
     
     # Show URLs
@@ -164,7 +162,7 @@ def main():
     try:
         webbrowser.open("http://localhost:8501")
         print("\n🌐 Opened main interface in your default browser")
-    except:
+    except Exception:
         print("\n🌐 Please open http://localhost:8501 in your browser")
     
     print("\n⌨️  Press Ctrl+C to stop all services")

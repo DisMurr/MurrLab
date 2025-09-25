@@ -1,4 +1,10 @@
-from typing import List, Tuple
+from typing import List, Tuple, TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    try:
+        from accelerate import Accelerator
+    except ImportError:
+        Accelerator = None
 
 import numpy as np
 import librosa
@@ -91,7 +97,7 @@ class S3Tokenizer(S3TokenizerV2):
     def forward(
         self,
         wavs: torch.Tensor,
-        accelerator: 'Accelerator'=None,
+        accelerator: Union['Accelerator', None] = None,
         max_len: int=None,
     ) -> Tuple[torch.Tensor, torch.LongTensor]:
         """

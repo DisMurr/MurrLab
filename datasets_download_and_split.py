@@ -258,7 +258,7 @@ class VoiceDatasetManager:
         val_df.to_csv(dataset_path / "validation.csv", index=False)
         test_df.to_csv(dataset_path / "test.csv", index=False)
         
-        print(f"✅ Created data splits:")
+        print("✅ Created data splits:")
         print(f"  Train: {len(train_df)} samples")
         print(f"  Validation: {len(val_df)} samples")
         print(f"  Test: {len(test_df)} samples")

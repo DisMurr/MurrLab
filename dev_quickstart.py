@@ -6,8 +6,6 @@ Clean, dependency-light quick start without Gradio.
 
 import subprocess
 import sys
-import os
-import time
 from pathlib import Path
 
 def run_command_safe(command, description, timeout=30):
@@ -144,13 +142,12 @@ print("🎉 Test files generated!")
                 import torch
                 print(f"CUDA available: {torch.cuda.is_available()}")
                 print(f"MPS available: {torch.backends.mps.is_available()}")
-            except:
+            except Exception:
                 pass
             
             # Check if models can be imported
             try:
                 sys.path.insert(0, str(Path.cwd() / "src"))
-                from murr import MurrTTS
                 print("✅ MurrTTS can be imported")
             except Exception as e:
                 print(f"❌ Import error: {e}")

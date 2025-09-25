@@ -1,4 +1,10 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    try:
+        from murr.models.t3.inference.alignment_stream_analyzer import AlignmentStreamAnalyzer
+    except ImportError:
+        AlignmentStreamAnalyzer = None
 
 import torch
 from torch import nn as nn
@@ -23,7 +29,7 @@ class T3HuggingfaceBackend(LlamaPreTrainedModel, GenerationMixin):
         speech_head,
         latents_queue=None,
         logits_queue=None,
-        alignment_stream_analyzer: 'AlignmentStreamAnalyzer'=None,
+        alignment_stream_analyzer: Union['AlignmentStreamAnalyzer', None] = None,
     ):
         super().__init__(config)
         self.model = llama
