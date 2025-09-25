@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MurrLab – AI Voice Platform</title>
+  <title>Contact – MurrLab</title>
   <style>
     :root { --bg:#0b1220; --card:#121a2b; --text:#e8eefc; --muted:#9bb0d1; --accent:#6aa8ff; }
     * { box-sizing: border-box; }
@@ -20,7 +20,6 @@
     .section { padding: 24px 20px; border-top: 1px solid rgba(255,255,255,0.06); }
     .section:first-child { border-top: none; }
     h2 { margin: 0 0 12px; font-size: 20px; }
-    code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
     .box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; }
     a.btn { display:inline-block; background: var(--accent); color:#061126; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600; }
@@ -31,86 +30,80 @@
 <body>
   <nav>
     <ul>
-      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/">Home</a></li>
       <li><a href="/services.html">Services</a></li>
-      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/contact.html" class="active">Contact</a></li>
     </ul>
   </nav>
 
   <header>
-    <h1>MurrLab – AI Voice Platform</h1>
-    <p class="lead">This Cloudflare Pages site hosts a static landing page. The live app (Streamlit UI and FastAPI API) runs as Python services and cannot execute on Pages. See deployment options below.</p>
+    <h1>Get in Touch</h1>
+    <p class="lead">Connect with our team to learn more about MurrLab's AI voice platform.</p>
   </header>
 
   <main>
     <div class="card">
       <div class="section">
-        <h2>Local quick start</h2>
+        <h2>Project Information</h2>
         <div class="grid">
           <div class="box">
-            <strong>UI (Streamlit)</strong>
+            <strong>Open Source</strong>
             <ul>
-              <li class="mono">pip install -e .[web,api]</li>
-              <li class="mono">streamlit run run_ui_streamlit.py</li>
-              <li>Opens at <span class="mono">http://localhost:8501</span></li>
+              <li>Available on GitHub</li>
+              <li>MIT License</li>
+              <li>Community contributions welcome</li>
+              <li>Documentation and examples included</li>
             </ul>
           </div>
           <div class="box">
-            <strong>API (FastAPI)</strong>
+            <strong>Development Status</strong>
             <ul>
-              <li class="mono">uvicorn apps.api.advanced_voice_api:app --reload</li>
-              <li>Docs at <span class="mono">http://localhost:8000/docs</span></li>
-            </ul>
-          </div>
-          <div class="box">
-            <strong>Weights</strong>
-            <ul>
-              <li>Place model files in <span class="mono">weights/</span> or set <span class="mono">MURR_WEIGHTS_DIR</span></li>
-              <li>Or authenticate to the Hugging Face repo for automatic download</li>
+              <li>Active development</li>
+              <li>Regular updates and improvements</li>
+              <li>Bug fixes and feature requests</li>
+              <li>Community support</li>
             </ul>
           </div>
         </div>
       </div>
 
       <div class="section">
-        <h2>Deploy options</h2>
+        <h2>Get Started</h2>
         <div class="grid">
           <div class="box">
-            <strong>Cloudflare Tunnel</strong>
+            <strong>Documentation</strong>
             <ul>
-              <li>Expose your local UI (8501) or API (8000) under your domain</li>
-              <li class="mono">cloudflared tunnel run &amp; route dns</li>
+              <li>Comprehensive setup guides</li>
+              <li>API documentation</li>
+              <li>Code examples</li>
+              <li>Troubleshooting tips</li>
             </ul>
           </div>
           <div class="box">
-            <strong>Compute hosting</strong>
+            <strong>Community</strong>
             <ul>
-              <li>Run the Python services on a VM or PaaS (Render/Railway/Fly/Cloud Run)</li>
-              <li>Then point your domain via Cloudflare DNS/Proxy</li>
-            </ul>
-          </div>
-          <div class="box">
-            <strong>Pages + external backend</strong>
-            <ul>
-              <li>Host a JS front-end on Pages; call your FastAPI deployed elsewhere</li>
+              <li>GitHub discussions</li>
+              <li>Issue tracking</li>
+              <li>Feature requests</li>
+              <li>Pull requests welcome</li>
             </ul>
           </div>
         </div>
       </div>
 
       <div class="section">
-        <h2>Configure Cloudflare Pages</h2>
+        <h2>Connect With Us</h2>
+        <p>This is an open-source project. The best way to get in touch is through GitHub:</p>
         <ul>
-          <li>Framework preset: <strong>None</strong></li>
-          <li>Build command: <strong>(leave empty)</strong></li>
-          <li>Build output directory: <span class="mono">public</span></li>
-          <li>Root directory: <span class="mono">/</span></li>
+          <li>Report bugs or request features via <a class="link" href="https://github.com/DisMurr/MurrLab/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
+          <li>Contribute code via <a class="link" href="https://github.com/DisMurr/MurrLab/pulls" target="_blank" rel="noopener">Pull Requests</a></li>
+          <li>Join discussions in <a class="link" href="https://github.com/DisMurr/MurrLab/discussions" target="_blank" rel="noopener">GitHub Discussions</a></li>
+          <li>View the project at <a class="link" href="https://github.com/DisMurr/MurrLab" target="_blank" rel="noopener">DisMurr/MurrLab</a></li>
         </ul>
-        <p>Pages will publish this static site from the <span class="mono">/public</span> folder.</p>
       </div>
 
       <div class="section">
-        <a class="btn" href="https://github.com/DisMurr/MurrLab" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn" href="https://github.com/DisMurr/MurrLab" target="_blank" rel="noopener">Visit GitHub Repository</a>
       </div>
     </div>
   </main>
