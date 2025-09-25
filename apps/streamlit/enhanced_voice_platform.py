@@ -8,31 +8,16 @@ import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str((_Path(__file__).resolve().parents[2] / "src")))
 
-import os
 import torch
-import torchaudio
-import librosa
-import numpy as np
-import pandas as pd
 import streamlit as st
-from pathlib import Path
 try:
     import whisper
 except Exception:
     whisper = None
-import noisereduce as nr
-from pydub import AudioSegment
-import matplotlib.pyplot as plt
-import librosa.display  # needed for specshow
-import seaborn as sns
-from datasets import load_dataset
 try:
     import sounddevice as sd
 except Exception:  # sounddevice is optional; real-time recording disabled if missing
     sd = None
-from scipy.io.wavfile import write
-import threading
-import time
 from murr import MurrTTS, MurrVC
 
 # ... identical logic ported from top-level enhanced_voice_platform.py ...

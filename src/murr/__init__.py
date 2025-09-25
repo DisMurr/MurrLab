@@ -9,3 +9,5 @@ __version__ = version("murrlab-voice")
 # Export public API
 from .tts import MurrTTS
 from .vc import MurrVC
+
+__all__ = ["MurrTTS", "MurrVC"]

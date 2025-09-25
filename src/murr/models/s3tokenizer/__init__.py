@@ -7,6 +7,18 @@ from .s3tokenizer import (
     S3Tokenizer,
 )
 
+__all__ = [
+    "S3_SR",
+    "S3_HOP", 
+    "S3_TOKEN_HOP",
+    "S3_TOKEN_RATE",
+    "SPEECH_VOCAB_SIZE",
+    "S3Tokenizer",
+    "SOS",
+    "EOS",
+    "drop_invalid_tokens",
+]
+
 
 SOS = SPEECH_VOCAB_SIZE
 EOS = SPEECH_VOCAB_SIZE + 1

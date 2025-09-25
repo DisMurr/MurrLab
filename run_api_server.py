@@ -4,7 +4,6 @@ Backward-compatible shim. The FastAPI service moved to apps/api/advanced_voice_a
 Run: uvicorn apps.api.advanced_voice_api:app --reload
 """
 
-from apps.api.advanced_voice_api import app
 
 if __name__ == "__main__":
     import uvicorn
