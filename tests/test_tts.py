@@ -74,15 +74,17 @@ def test_from_pretrained(mock_from_local, mock_hf_hub_download):
 
 @patch('src.murr.tts.librosa.load')
 def test_prepare_conditionals(mock_librosa_load, tts_instance, mock_models):
-    mock_librosa_load.return_value = (np.random.rand(16000 * 10), 16000)
+    mock_librosa_load.return_value = (np.random.rand(24000 * 10), 24000)
     mock_models["ve_instance"].embeds_from_wavs.return_value = np.random.rand(1, 256)
+    # Mock the s3gen tokenizer forward method to return a 2-tuple
+    mock_models["s3gen_instance"].tokenizer.forward.return_value = (torch.tensor([[1, 2, 3]]), torch.tensor([3]))
     
     tts_instance.prepare_conditionals("dummy.wav")
     
     assert tts_instance.conds is not None
     assert isinstance(tts_instance.conds, Conditionals)
     assert isinstance(tts_instance.conds.t3, T3Cond)
-    mock_librosa_load.assert_called_with("dummy.wav", sr=48000)
+    mock_librosa_load.assert_called_with("dummy.wav", sr=24000)
     mock_models["ve_instance"].embeds_from_wavs.assert_called()
 
 def test_generate_no_prompt(tts_instance):
@@ -92,9 +94,11 @@ def test_generate_no_prompt(tts_instance):
 @patch('src.murr.tts.librosa.load')
 def test_generate_with_audio_prompt(mock_librosa_load, tts_instance, mock_models):
     # Mock dependencies for prepare_conditionals
-    mock_librosa_load.return_value = (np.random.rand(48000 * 10), 48000)
+    mock_librosa_load.return_value = (np.random.rand(24000 * 10), 24000)
     mock_models["ve_instance"].embeds_from_wavs.return_value = np.random.rand(1, 256)
     mock_models["s3gen_instance"].embed_ref.return_value = {}
+    # Mock the s3gen tokenizer forward method to return a 2-tuple
+    mock_models["s3gen_instance"].tokenizer.forward.return_value = (torch.tensor([[1, 2, 3]]), torch.tensor([3]))
 
     # Mock dependencies for generate
     mock_models["tokenizer_instance"].text_to_tokens.return_value = torch.tensor([[1, 2, 3]])
@@ -104,7 +108,7 @@ def test_generate_with_audio_prompt(mock_librosa_load, tts_instance, mock_models
     wav = tts_instance.generate("test text", audio_prompt_path="dummy.wav")
 
     assert isinstance(wav, torch.Tensor)
-    assert wav.shape == (1, 3)
+    assert wav.shape == (1, 1, 3)
     mock_models["tokenizer_instance"].text_to_tokens.assert_called_with("Test text.")
     mock_models["t3_instance"].inference.assert_called()
     mock_models["s3gen_instance"].inference.assert_called()
@@ -116,16 +120,19 @@ def test_generate_with_prepared_conditionals(tts_instance, mock_models):
     mock_models["t3_instance"].inference.return_value = torch.tensor([[4, 5, 6]])
     mock_models["s3gen_instance"].inference.return_value = (torch.tensor([[[0.1, 0.2, 0.3]]]), 48000)
 
-    # Manually set conditionals
+    # Manually set conditionals with proper tensor for emotion_adv
     tts_instance.conds = Conditionals(
-        t3=T3Cond(speaker_emb=torch.rand(1, 256)),
+        t3=T3Cond(
+            speaker_emb=torch.rand(1, 256),
+            emotion_adv=torch.ones(1, 1, 1) * 0.5  # Proper tensor instead of float
+        ),
         gen={}
     )
 
     wav = tts_instance.generate("test text")
 
     assert isinstance(wav, torch.Tensor)
-    assert wav.shape == (1, 3)
+    assert wav.shape == (1, 1, 3)
     mock_models["tokenizer_instance"].text_to_tokens.assert_called_with("Test text.")
     mock_models["t3_instance"].inference.assert_called()
     mock_models["s3gen_instance"].inference.assert_called()
